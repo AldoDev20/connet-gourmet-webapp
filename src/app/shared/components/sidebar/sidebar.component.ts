@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '../../../core/pipes/translate.pipe';
 
@@ -76,6 +76,7 @@ import { TranslatePipe } from '../../../core/pipes/translate.pipe';
       </div>
     </aside>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [`
     :host {
       display: block;

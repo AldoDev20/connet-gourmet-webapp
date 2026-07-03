@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -43,7 +43,7 @@ interface MapTheme {
     <div class="bg-background text-on-surface font-body-md overflow-hidden h-screen flex">
       <!-- Sidebar Navigation -->
       <app-sidebar></app-sidebar>
-
+    
       <!-- Main Content Area -->
       <main class="flex-1 ml-0 lg:ml-64 relative flex flex-col h-screen">
         <!-- Top Navigation & Search -->
@@ -59,11 +59,11 @@ interface MapTheme {
           <!-- Search and Filter Bar -->
           <div class="flex-1 max-w-2xl flex items-center bg-surface-container-low border border-outline-variant rounded-full px-4 py-2 gap-3 transition-focus focus-within:border-primary focus-within:ring-1 focus-within:ring-primary shadow-inner">
             <span class="material-symbols-outlined text-outline">search</span>
-            <input 
+            <input
               [(ngModel)]="searchQuery"
               (keyup.enter)="filterCards()"
-              class="bg-transparent border-none focus:ring-0 w-full text-body-md placeholder:text-outline-variant outline-none" 
-              placeholder="Search region, category, or ingredient..." 
+              class="bg-transparent border-none focus:ring-0 w-full text-body-md placeholder:text-outline-variant outline-none"
+              placeholder="Search region, category, or ingredient..."
               type="text"/>
             <div class="h-6 w-[1px] bg-outline-variant"></div>
             <button (click)="toggleFilters()" class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors px-2">
@@ -80,14 +80,14 @@ interface MapTheme {
             </div>
           </div>
         </header>
-
+    
         <!-- Discovery Map Container -->
         <div class="flex-1 relative flex">
           <!-- Interactive OpenStreetMap Container -->
           <div class="absolute inset-0 z-0 bg-surface-container overflow-hidden">
             <div id="map" class="w-full h-full relative z-0"></div>
           </div>
-
+    
           <!-- Map Color Theme Selector Widget -->
           <div class="absolute top-6 right-10 bg-surface/90 backdrop-blur-md px-4 py-3 rounded-2xl shadow-xl border border-outline-variant/60 z-20 flex flex-col gap-2 text-xs w-48">
             <span class="font-bold text-[10px] text-outline uppercase tracking-wider flex items-center gap-1.5">
@@ -95,16 +95,17 @@ interface MapTheme {
               Map Style
             </span>
             <div class="flex flex-col gap-1">
-              <button 
-                *ngFor="let theme of themes" 
-                (click)="changeMapTheme(theme.id)"
-                [ngClass]="activeThemeId === theme.id ? 'bg-primary/10 text-primary font-bold border-l-2 border-primary pl-2' : 'text-on-surface-variant hover:bg-surface-container/50 pl-2'"
-                class="text-left py-1.5 rounded-r transition-all cursor-pointer">
-                {{ theme.name }}
-              </button>
+              @for (theme of themes; track theme) {
+                <button
+                  (click)="changeMapTheme(theme.id)"
+                  [ngClass]="activeThemeId === theme.id ? 'bg-primary/10 text-primary font-bold border-l-2 border-primary pl-2' : 'text-on-surface-variant hover:bg-surface-container/50 pl-2'"
+                  class="text-left py-1.5 rounded-r transition-all cursor-pointer">
+                  {{ theme.name }}
+                </button>
+              }
             </div>
           </div>
-
+    
           <!-- Map Controls Overlay -->
           <div class="absolute bottom-10 right-10 flex flex-col gap-2 z-20">
             <button (click)="zoomIn()" class="w-12 h-12 bg-surface rounded-full shadow-lg flex items-center justify-center text-on-surface-variant hover:bg-primary-fixed hover:text-primary transition-colors border border-outline-variant cursor-pointer">
@@ -117,7 +118,7 @@ interface MapTheme {
               <span class="material-symbols-outlined">my_location</span>
             </button>
           </div>
-
+    
           <!-- Sidebar Overlay: Featured Near You -->
           <aside class="z-10 w-full max-w-sm ml-margin-desktop my-6 pointer-events-none">
             <div class="h-full flex flex-col pointer-events-auto bg-surface/90 backdrop-blur-md rounded-3xl shadow-2xl border border-outline-variant overflow-hidden">
@@ -128,45 +129,46 @@ interface MapTheme {
                 </h3>
                 <p class="font-label-sm text-on-surface-variant mt-1">Discover {{ filteredCards.length }} local treasures in Lima</p>
               </div>
-
+    
               <!-- List of Cards -->
               <div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4 custom-scrollbar">
-                <div 
-                  *ngFor="let card of filteredCards"
-                  [class.border-primary]="selectedPinName === card.name"
-                  (click)="focusOnCard(card)"
-                  class="bg-surface rounded-2xl border border-outline-variant/30 overflow-hidden custom-shadow card-hover transition-all duration-300 cursor-pointer">
-                  <div class="h-32 w-full relative">
-                    <img class="w-full h-full object-cover" [alt]="card.name" [src]="card.imageUrl"/>
-                    <div [class]="card.badgeClass" class="absolute top-2 right-2 px-3 py-1 rounded-full flex items-center gap-1 border border-white/20 text-white">
-                      <span class="material-symbols-outlined text-[14px]">{{ card.iconName }}</span>
-                      <span class="text-[10px] font-bold uppercase tracking-wider">{{ card.type }}</span>
-                    </div>
-                  </div>
-                  <div class="p-4">
-                    <div class="flex justify-between items-start mb-2">
-                      <div>
-                        <h4 class="font-body-md font-bold text-on-surface">{{ card.name }}</h4>
-                        <p class="font-label-sm text-secondary">{{ card.specialty }} • {{ card.location }}</p>
-                      </div>
-                      <div class="flex items-center gap-1 bg-surface-container-high px-2 py-1 rounded-lg">
-                        <span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                        <span class="text-label-sm font-bold">{{ card.rating }}</span>
+                @for (card of filteredCards; track card) {
+                  <div
+                    [class.border-primary]="selectedPinName === card.name"
+                    (click)="focusOnCard(card)"
+                    class="bg-surface rounded-2xl border border-outline-variant/30 overflow-hidden custom-shadow card-hover transition-all duration-300 cursor-pointer">
+                    <div class="h-32 w-full relative">
+                      <img class="w-full h-full object-cover" [alt]="card.name" [src]="card.imageUrl"/>
+                      <div [class]="card.badgeClass" class="absolute top-2 right-2 px-3 py-1 rounded-full flex items-center gap-1 border border-white/20 text-white">
+                        <span class="material-symbols-outlined text-[14px]">{{ card.iconName }}</span>
+                        <span class="text-[10px] font-bold uppercase tracking-wider">{{ card.type }}</span>
                       </div>
                     </div>
-                    <p class="text-label-sm text-on-surface-variant line-clamp-2 mb-4">{{ card.description }}</p>
-                    <div class="flex gap-2">
-                      <button (click)="connectWithCard(card.id); $event.stopPropagation()" class="flex-1 bg-secondary text-on-secondary py-2 rounded-lg font-bold text-label-sm active:scale-95 transition-transform hover:bg-secondary/90">
-                        Connect
-                      </button>
-                      <button (click)="$event.stopPropagation()" class="px-3 border-2 border-outline-variant rounded-lg text-outline hover:bg-surface-container-low transition-colors">
-                        <span class="material-symbols-outlined text-[20px]">bookmark</span>
-                      </button>
+                    <div class="p-4">
+                      <div class="flex justify-between items-start mb-2">
+                        <div>
+                          <h4 class="font-body-md font-bold text-on-surface">{{ card.name }}</h4>
+                          <p class="font-label-sm text-secondary">{{ card.specialty }} • {{ card.location }}</p>
+                        </div>
+                        <div class="flex items-center gap-1 bg-surface-container-high px-2 py-1 rounded-lg">
+                          <span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                          <span class="text-label-sm font-bold">{{ card.rating }}</span>
+                        </div>
+                      </div>
+                      <p class="text-label-sm text-on-surface-variant line-clamp-2 mb-4">{{ card.description }}</p>
+                      <div class="flex gap-2">
+                        <button (click)="connectWithCard(card.id); $event.stopPropagation()" class="flex-1 bg-secondary text-on-secondary py-2 rounded-lg font-bold text-label-sm active:scale-95 transition-transform hover:bg-secondary/90">
+                          Connect
+                        </button>
+                        <button (click)="$event.stopPropagation()" class="px-3 border-2 border-outline-variant rounded-lg text-outline hover:bg-surface-container-low transition-colors">
+                          <span class="material-symbols-outlined text-[20px]">bookmark</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                }
               </div>
-
+    
               <!-- Footer -->
               <div class="p-4 bg-surface border-t border-outline-variant flex justify-center">
                 <button (click)="viewAllDiscoveries()" class="text-primary font-bold text-label-sm hover:underline flex items-center gap-1">
@@ -177,14 +179,15 @@ interface MapTheme {
             </div>
           </aside>
         </div>
-
+    
         <!-- Floating Action Button (FAB) -->
         <button (click)="createNewDiscovery()" class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
           <span class="material-symbols-outlined text-[28px]">add</span>
         </button>
       </main>
     </div>
-  `,
+    `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [`
     :host {
       display: block;

@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { TranslationService } from '../../../core/services/translation.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink],
   template: `
     <header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim shadow-[0_4px_15px_-3px_rgba(28,27,27,0.1)] h-16 flex items-center">
       <div class="max-w-container-max mx-auto px-margin-desktop flex justify-between items-center w-full">
@@ -40,6 +40,7 @@ import { TranslationService } from '../../../core/services/translation.service';
       </div>
     </header>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [`
     :host {
       display: block;
