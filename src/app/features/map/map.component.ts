@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -187,6 +187,7 @@ interface MapTheme {
       </main>
     </div>
     `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [`
     :host {
       display: block;

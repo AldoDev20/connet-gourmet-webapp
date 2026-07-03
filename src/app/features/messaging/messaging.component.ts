@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewChecked, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -162,6 +162,7 @@ import { Chat, Message } from '../../domain/message/models/message.model';
       </main>
     </div>
     `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [`
     :host {
       display: block;

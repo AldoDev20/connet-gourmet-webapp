@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { TranslationService } from '../../../core/services/translation.service';
@@ -40,6 +40,7 @@ import { TranslationService } from '../../../core/services/translation.service';
       </div>
     </header>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [`
     :host {
       display: block;
