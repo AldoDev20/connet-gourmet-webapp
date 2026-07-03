@@ -25,64 +25,66 @@ import { TranslationService } from '../../core/services/translation.service';
           </div>
         </div>
       </section>
-
+    
       <!-- Right: Login Form Section -->
       <section class="w-full md:w-1/2 lg:w-[40%] flex flex-col bg-surface relative min-h-screen">
         <!-- Floating Language Switcher -->
         <div class="absolute top-6 right-8 flex items-center gap-2 border border-outline-variant/30 rounded-full px-3 py-1 bg-surface-container-low text-xs font-semibold z-10">
-          <button 
-            (click)="setLang('es')" 
-            [ngClass]="currentLang === 'es' ? 'text-primary font-bold scale-105' : 'text-outline hover:text-primary'" 
-            class="transition-all cursor-pointer">ES</button>
+          <button
+            (click)="setLang('es')"
+            [ngClass]="currentLang === 'es' ? 'text-primary font-bold scale-105' : 'text-outline hover:text-primary'"
+          class="transition-all cursor-pointer">ES</button>
           <span class="text-outline-variant">|</span>
-          <button 
-            (click)="setLang('en')" 
-            [ngClass]="currentLang === 'en' ? 'text-primary font-bold scale-105' : 'text-outline hover:text-primary'" 
-            class="transition-all cursor-pointer">EN</button>
+          <button
+            (click)="setLang('en')"
+            [ngClass]="currentLang === 'en' ? 'text-primary font-bold scale-105' : 'text-outline hover:text-primary'"
+          class="transition-all cursor-pointer">EN</button>
         </div>
-
+    
         <main class="flex-grow flex items-center justify-center px-8 py-20 lg:px-24">
           <div class="w-full max-w-sm space-y-10 animate-fade-in">
             <div class="space-y-4">
               <h1 class="font-display-lg text-4xl text-on-surface font-headline-md">{{ 'login.welcome' | translate }}</h1>
               <p class="font-body-md text-on-surface-variant tracking-wide">{{ 'login.subtitle' | translate }}</p>
             </div>
-
+    
             <!-- Banner de Error de Credenciales -->
-            <div *ngIf="authFacade.error$ | async as errorMsg" class="bg-error-container text-on-error-container text-sm rounded-xl p-4 animate-fade-in flex items-center gap-3 border border-error/20">
-              <span class="material-symbols-outlined text-[20px] text-error">warning</span>
-              <span class="flex-1 font-body-md leading-snug">{{ errorMsg }}</span>
-            </div>
-            
+            @if (authFacade.error$ | async; as errorMsg) {
+              <div class="bg-error-container text-on-error-container text-sm rounded-xl p-4 animate-fade-in flex items-center gap-3 border border-error/20">
+                <span class="material-symbols-outlined text-[20px] text-error">warning</span>
+                <span class="flex-1 font-body-md leading-snug">{{ errorMsg }}</span>
+              </div>
+            }
+    
             <form class="space-y-8" (ngSubmit)="onSubmit()">
               <div class="space-y-1.5 relative">
                 <label class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-widest font-bold" for="email">{{ 'login.email' | translate }}</label>
-                <input 
+                <input
                   [(ngModel)]="email"
                   name="email"
-                  class="w-full py-3 bg-transparent input-underline text-on-surface outline-none placeholder:text-surface-dim font-body-md transition-all px-0" 
-                  id="email" 
-                  placeholder="tu@ejemplo.com" 
-                  required 
+                  class="w-full py-3 bg-transparent input-underline text-on-surface outline-none placeholder:text-surface-dim font-body-md transition-all px-0"
+                  id="email"
+                  placeholder="tu@ejemplo.com"
+                  required
                   type="email"/>
               </div>
-              
+    
               <div class="space-y-1.5 relative">
                 <div class="flex justify-between items-end">
                   <label class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-widest font-bold" for="password">{{ 'login.password' | translate }}</label>
                 </div>
                 <div class="relative">
-                  <input 
+                  <input
                     [(ngModel)]="password"
                     name="password"
                     [type]="showPassword ? 'text' : 'password'"
-                    class="w-full py-3 bg-transparent input-underline text-on-surface outline-none font-body-md transition-all px-0" 
-                    id="password" 
-                    placeholder="••••••••" 
+                    class="w-full py-3 bg-transparent input-underline text-on-surface outline-none font-body-md transition-all px-0"
+                    id="password"
+                    placeholder="••••••••"
                     required/>
-                  <button 
+                  <button
                     (click)="togglePasswordVisibility()"
-                    class="absolute right-0 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer" 
+                    class="absolute right-0 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
                     type="button">
                     <span class="material-symbols-outlined text-[20px]">
                       {{ showPassword ? 'visibility_off' : 'visibility' }}
@@ -93,23 +95,23 @@ import { TranslationService } from '../../core/services/translation.service';
                   <a class="font-label-sm text-[11px] text-on-surface-variant hover:text-primary transition-colors italic underline underline-offset-4 decoration-outline-variant" href="#">{{ 'login.forgot' | translate }}</a>
                 </div>
               </div>
-              
+    
               <div class="pt-4">
-                <button 
+                <button
                   [disabled]="!email || !password"
-                  class="w-full py-4 bg-primary text-on-primary font-body-md font-semibold tracking-widest hover:brightness-110 active:scale-[0.98] transition-all duration-300 shadow-lg shadow-primary/20 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" 
+                  class="w-full py-4 bg-primary text-on-primary font-body-md font-semibold tracking-widest hover:brightness-110 active:scale-[0.98] transition-all duration-300 shadow-lg shadow-primary/20 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   type="submit">
                   {{ 'login.button' | translate }}
                 </button>
               </div>
             </form>
-            
+    
             <div class="space-y-6">
               <div class="relative flex items-center justify-center">
                 <div class="w-full border-t border-outline-variant"></div>
                 <span class="absolute px-4 bg-surface text-[10px] uppercase tracking-[0.3em] text-surface-dim font-bold">o</span>
               </div>
-              
+    
               <button (click)="loginWithGoogle()" class="w-full py-3.5 border border-outline-variant flex items-center justify-center gap-3 text-on-surface font-medium hover:bg-white hover:shadow-md transition-all duration-300 font-body-md group cursor-pointer">
                 <svg class="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
@@ -119,14 +121,14 @@ import { TranslationService } from '../../core/services/translation.service';
                 </svg>
                 <span>{{ 'login.google' | translate }}</span>
               </button>
-              
+    
               <p class="text-center font-body-md text-on-surface-variant text-sm">
                 {{ 'login.noAccount' | translate }} <a class="text-primary font-semibold hover:underline" href="#">{{ 'login.register' | translate }}</a>
               </p>
             </div>
           </div>
         </main>
-        
+    
         <!-- Professional Footer -->
         <footer class="w-full py-8 px-8 border-t border-outline-variant bg-surface-container-low mt-auto">
           <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-on-surface-variant font-label-sm text-[11px] uppercase tracking-wider">
@@ -140,7 +142,7 @@ import { TranslationService } from '../../core/services/translation.service';
         </footer>
       </section>
     </div>
-  `,
+    `,
   styles: [`
     :host {
       display: block;
