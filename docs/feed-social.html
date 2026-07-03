@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GourmetConnect | Peruvian Culinary Feed</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600&amp;family=Libre+Caslon+Text:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#eae7e7",
+                    "on-secondary-fixed-variant": "#78301b",
+                    "on-secondary": "#ffffff",
+                    "surface": "#fcf9f8",
+                    "on-primary-container": "#fffbff",
+                    "on-surface-variant": "#584238",
+                    "surface-container": "#f0eded",
+                    "primary-container": "#c45100",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-surface": "#1c1b1b",
+                    "secondary-fixed": "#ffdbd1",
+                    "on-tertiary-fixed-variant": "#0f5224",
+                    "outline-variant": "#e0c0b2",
+                    "on-error": "#ffffff",
+                    "secondary-fixed-dim": "#ffb5a0",
+                    "tertiary-fixed-dim": "#94d69a",
+                    "on-primary-fixed": "#351000",
+                    "primary-fixed-dim": "#ffb693",
+                    "surface-bright": "#fcf9f8",
+                    "outline": "#8c7166",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#43824e",
+                    "secondary": "#974730",
+                    "background": "#fcf9f8",
+                    "surface-container-low": "#f6f3f2",
+                    "surface-dim": "#dcd9d9",
+                    "secondary-container": "#fe997c",
+                    "on-secondary-container": "#772f1a",
+                    "primary-fixed": "#ffdbcc",
+                    "inverse-primary": "#ffb693",
+                    "inverse-surface": "#313030",
+                    "on-tertiary-container": "#f7fff2",
+                    "on-primary-fixed-variant": "#7a3000",
+                    "on-secondary-fixed": "#3b0900",
+                    "surface-variant": "#e5e2e1",
+                    "surface-container-highest": "#e5e2e1",
+                    "inverse-on-surface": "#f3f0ef",
+                    "on-error-container": "#93000a",
+                    "on-background": "#1c1b1b",
+                    "surface-tint": "#a04100",
+                    "on-tertiary": "#ffffff",
+                    "primary": "#9c3f00",
+                    "tertiary-fixed": "#aff3b4",
+                    "on-tertiary-fixed": "#002109",
+                    "tertiary": "#296837",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px",
+                    "unit": "8px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Be Vietnam Pro"],
+                    "display-lg-mobile": ["Libre Caslon Text"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "headline-md": ["Libre Caslon Text"],
+                    "display-lg": ["Libre Caslon Text"],
+                    "label-sm": ["Be Vietnam Pro"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            vertical-align: middle;
+        }
+        .feed-card-shadow {
+            box-shadow: 0 4px 15px -3px rgba(28, 27, 27, 0.1);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md selection:bg-secondary-fixed">
+<!-- Top AppBar (Mobile/Global) -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim shadow-[0_4px_15px_-3px_rgba(28,27,27,0.1)] h-16 flex items-center">
+<div class="max-w-container-max mx-auto px-margin-desktop flex justify-between items-center w-full">
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim font-bold tracking-tight">GourmetConnect</h1>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center bg-surface-container rounded-full px-4 py-1.5 border border-outline-variant">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md placeholder:text-outline-variant ml-2 w-64" placeholder="Search flavors..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">add_a_photo</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-secondary-container">
+<img class="w-full h-full object-cover" data-alt="Close up portrait of a professional Peruvian chef wearing a clean white coat, smiling warmly. The lighting is soft and golden, evocative of a Lima sunset through a kitchen window. High-quality photographic style with a shallow depth of field, highlighting the chef's friendly expression against a blurred background of a modern copper-accented kitchen." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYUXB9Os_jDGO3-j-8Om-Pl-Dp41NYKcnHVMnxQR4A_bYZvEj4YpU3m1fMLkp6tpn7OWHW5lQluX61Szjk1-OEsdwJXzkfX4_MA7lzxnOZDA5bo-WWY_gQLx_RlaBQFAq7GDzah-Hgl75nSghnbXZtagXABkvdeurzfhRC9MgpQmz8_yfECS4BO9hH_RxCECcw0ozVDsd7buSN7F1uAWW4Bfn8d45ITi--PhZjUZ2nNfTnLor1jzAjgw"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto pt-24 px-margin-desktop flex gap-gutter">
+<!-- Left: SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 hidden lg:flex flex-col p-4 pt-20 gap-4 bg-surface-container-low dark:bg-surface-container border-r border-outline-variant">
+<div class="flex flex-col gap-2">
+<!-- Nav Items mapping logic from JSON -->
+<a class="flex items-center gap-4 p-3 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-xl font-bold active:opacity-80 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-body-md">Feed</span>
+</a>
+<a class="flex items-center gap-4 p-3 text-on-surface-variant dark:text-on-surface hover:bg-surface-container-high hover:pl-5 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-body-md">Map</span>
+</a>
+<a class="flex items-center gap-4 p-3 text-on-surface-variant dark:text-on-surface hover:bg-surface-container-high hover:pl-5 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-body-md">Inbox</span>
+</a>
+<a class="flex items-center gap-4 p-3 text-on-surface-variant dark:text-on-surface hover:bg-surface-container-high hover:pl-5 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-body-md">Alerts</span>
+</a>
+<a class="flex items-center gap-4 p-3 text-on-surface-variant dark:text-on-surface hover:bg-surface-container-high hover:pl-5 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-md">My Profile</span>
+</a>
+</div>
+<div class="mt-8">
+<button class="w-full bg-primary text-on-primary py-3 px-4 rounded-xl font-bold body-md hover:shadow-lg transition-transform active:scale-95">
+                    Create Recipe
+                </button>
+</div>
+<div class="mt-auto pb-8 border-t border-outline-variant pt-4 flex flex-col gap-2">
+<div class="flex items-center gap-3 px-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Small circular avatar of Chef Gaston, a distinguished culinary expert from Peru, wearing a casual denim chef shirt. He has a warm, confident smile. The background is a soft-focus vibrant market scene in Lima with splashes of colorful fruits. Cinematic lighting, professional culinary portrait photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRA7k32sMJonItbTuskMBBV4ajmHQxrl3W9nntqJZXpg-fYi-7hwIcqCrCnPJPVHr_7ux9a4RrNcJau3yxkOfyDadTM8NgDnsOZxDoaZOJU-JusWGFy7vFoyJMSX_sIzje3Z6QcKHJg_krlAKL6zJMJJWU8HuZNRqgCfCbKLxdlBQ8sFkAN19mIUbTOBSjn11TBK_9P9t30kaIo7EuRrh3_DugPiO64EcQ8VEUwaZR-aINgl236BW3Tg"/>
+</div>
+<div>
+<p class="font-bold text-on-surface-variant text-body-md leading-tight">Chef Gastón</p>
+<p class="text-label-sm text-outline">Lima, Peru</p>
+</div>
+</div>
+<a class="flex items-center gap-4 px-3 py-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-4 px-3 py-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md">Support</span>
+</a>
+</div>
+</aside>
+<!-- Center: Dynamic News Feed -->
+<section class="flex-1 lg:ml-64 max-w-2xl mx-auto space-y-6">
+<!-- Post Creation Box -->
+<div class="bg-surface-container-lowest rounded-[24px] p-6 feed-card-shadow border border-outline-variant/30">
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden shrink-0 border border-secondary-container">
+<img class="w-full h-full object-cover" data-alt="Close up profile picture of a culinary enthusiast in a bright kitchen. Soft morning light creates a clean, airy feel. The subject is wearing a light linen apron. The overall aesthetic is fresh, minimalist, and upscale, consistent with a modern light-mode UI design focused on organic food." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGqXOAKt4MB4qy8A-CJM-pGs-JDQ6ccsKrLr8KYlvYucTN1ko5rHeRe6KkUqtmMvTZl-gUwhubuj3KoMj4e1ml91EN7he4LzIGUJE3oJSvj_nt5Wy_m3yq2dan-5dd8TAkOIH2_fsxe8Ksbret7fZe84YBy2iPYaGhbq35_EWk_c5AqO1B2JdHO7MnOKmTLN2Pgo86f340XcMN8K-yErrzjVCOoWNuazpkbenvve9VtvaexzVGctVPAw"/>
+</div>
+<div class="flex-1">
+<textarea class="w-full bg-surface-container-low border-none rounded-2xl p-4 text-body-md placeholder:text-outline-variant focus:ring-2 focus:ring-primary/20 min-h-[100px] resize-none" placeholder="Share your culinary discovery..."></textarea>
+</div>
+</div>
+<div class="flex flex-wrap justify-between items-center mt-4 pt-4 border-t border-surface-container">
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">add_a_photo</span>
+<span class="text-label-sm">Photo</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary">movie</span>
+<span class="text-label-sm">Video</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-tertiary">eco</span>
+<span class="text-label-sm">Ingredients</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-outline">location_on</span>
+<span class="text-label-sm">Tag</span>
+</button>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-bold transition-transform active:scale-95 shadow-md">Post</button>
+</div>
+</div>
+<!-- Posts Stream -->
+<div class="space-y-8 pb-10">
+<!-- Post 1 -->
+<article class="bg-surface-container-lowest rounded-[24px] overflow-hidden feed-card-shadow border border-outline-variant/20 transition-all hover:translate-y-[-2px]">
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-secondary-fixed">
+<img class="w-full h-full object-cover" data-alt="Headshot of a young female food blogger with a warm, authentic smile, set against a vibrant Peruvian market background filled with colorful textiles and fresh produce. The lighting is sunny and natural, creating a warm-light aesthetic. High resolution, professional portrait photography with rich textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACrGH3GG11AyLNzF7GxyLJNRDAEX2dV3gcf8EztS5rEwr1LKBNlLvIKcIr3DSjg1w7X0BbWOwbO6pt3-zYZMwzXyBW_ImLVgxexqWKOGE1T7-YYauezJFGSdwWgh09nue-C7URwRXWgj1DQJt3fz3O8Amb43ln68jgJv4PN1KY9B-dAh0Osf_Fe-6eB3qj57_iIxaVIAlko3QipCj-D20L757DL2kV-L1kgg0bTeoQXuvPPMaBmgnKZw"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface-variant text-body-md leading-tight">Lucia Mendoza</h3>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+<span class="text-label-sm">Cevichería El Sol, Lima</span>
+</div>
+</div>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-primary">more_horiz</button>
+</div>
+<div class="relative group">
+<img class="w-full aspect-square object-cover" data-alt="Exquisite plate of fresh Peruvian Ceviche, featuring translucent cubes of white fish marinated in bright citrus leche de tigre, topped with thin slices of red onion, cilantro, and served with golden sweet potato and giant corn kernels. The dish is presented on a rustic blue ceramic plate, captured in high-detail close-up photography with glistening textures and vibrant, appetizing colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4ySWXDFmyX7iUfJOuy7M_Xv8RN0U22SND7F2gCluwz1AAExmMwS3UG_iRPCLooDnhqxv_mEfKn0VB7fJz98iXda2Pvg2BALfJWV6qPQAnFmVs8ljV8ZsW7szwsxPqRXG43ezjubO79s2rWPjfKfaCiRaigSPQLZPjROAF6iZ3W0epFdumVHqtHRwexYb6eTaxhJA6jcG737z75GFx1WvaJCcJaImU_CvYuwA0aEsJbxNCD7KYObAWSA"/>
+<div class="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-label-sm text-on-surface font-bold">LIMA</span>
+<span class="bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-label-sm text-on-surface font-bold">SEAFOOD</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-center mb-4">
+<div class="flex gap-6">
+<button class="flex items-center gap-1.5 group">
+<span class="material-symbols-outlined text-outline group-hover:text-red-500 transition-colors">favorite</span>
+<span class="text-label-sm text-outline group-hover:text-on-surface">1.2k</span>
+</button>
+<button class="flex items-center gap-1.5 group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chat_bubble</span>
+<span class="text-label-sm text-outline group-hover:text-on-surface">84</span>
+</button>
+<button class="flex items-center gap-1.5 group">
+<span class="material-symbols-outlined text-outline group-hover:text-tertiary transition-colors">share</span>
+</button>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-secondary-container transition-colors">bookmark</button>
+</div>
+<p class="text-body-md text-on-surface-variant mb-2">
+<span class="font-bold">Lucia Mendoza</span> The Leche de Tigre here is absolutely transformative! 🍋🐟 You can really taste the freshness of the morning catch. A must-visit if you're exploring Callao.
+                        </p>
+<p class="text-label-sm text-outline-variant">2 hours ago</p>
+</div>
+</article>
+<!-- Post 2 -->
+<article class="bg-surface-container-lowest rounded-[24px] overflow-hidden feed-card-shadow border border-outline-variant/20 transition-all hover:translate-y-[-2px]">
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-secondary-fixed">
+<img class="w-full h-full object-cover" data-alt="Portrait of an artisanal farmer from the Andes, wearing a traditional woven hat and a kind, weathered face that shows years of wisdom. He is holding a basket of heirloom potatoes. The lighting is golden-hour sunlight across a mountain landscape. Professional documentary-style photography, rich earthy tones, high contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvKEQ9ISqqPAMGO7s8OvokM6ROT4TYSQdR_jFCTHKxO9QJIDlGJVknmR8Y3CObb9-2swE2DOJ7Tz0uDS-L95e1_V6DBDtjPmjTqXef4wOeEPVvv9mtX6DXTzA6gKC2QDXLlgmQxvMoQ30qB4cq4xhEiaCE1mmNbykphg24eH1eaV6xWaVF4uF18_Z88W_QiaoRxtyM95pgw5crgn1QNrsKAWwuIa8lX2kpmMZ2OQWuwLUWh5Izt8VmGg"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface-variant text-body-md leading-tight">Don Ricardo</h3>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+<span class="text-label-sm">Valle Sagrado, Cusco</span>
+</div>
+</div>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-primary">more_horiz</button>
+</div>
+<div class="relative aspect-video">
+<img class="w-full h-full object-cover" data-alt="High-angle shot of a sizzling Lomo Saltado in a traditional wok, with vibrant yellow peppers, red onions, tomatoes, and tender beef strips being tossed in a rich, dark soy-based sauce. Wisps of steam rise from the dish, and the background shows a rustic stone kitchen. Professional food photography with a warm, tactile feel and intense culinary focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSUsJdH8G0T7qEMr1FNSu14jWSiI5MHWeguWcMBQM1l4J2YUereEU0n2NhH9D2aCOW66zaNYa4lKE4nnYgm2NodiQywDYuiPSeF2lgVne-El0_OQ9Z1MUbNvUlcnwS7KH0-SLaFjP9trBvcYouucP_YVyTo-b2l0w5OPO3Jgh-c9zgw7Qi3vqytEchHYxPM8Ef5YrHKR8s_JIy5yMNCFra0Yq-Rgs0VZ-fxNgHFOArphoudscv9Im0Kg"/>
+<div class="absolute inset-0 flex items-center justify-center bg-black/10">
+<button class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-lg flex items-center justify-center text-white border border-white/40 hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-4xl">play_arrow</span>
+</button>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-center mb-4">
+<div class="flex gap-6">
+<button class="flex items-center gap-1.5 group">
+<span class="material-symbols-outlined text-outline group-hover:text-red-500 transition-colors">favorite</span>
+<span class="text-label-sm text-outline group-hover:text-on-surface">3.5k</span>
+</button>
+<button class="flex items-center gap-1.5 group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chat_bubble</span>
+<span class="text-label-sm text-outline group-hover:text-on-surface">156</span>
+</button>
+<button class="flex items-center gap-1.5 group">
+<span class="material-symbols-outlined text-outline group-hover:text-tertiary transition-colors">share</span>
+</button>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-secondary-container transition-colors">bookmark</button>
+</div>
+<p class="text-body-md text-on-surface-variant mb-2">
+<span class="font-bold">Don Ricardo</span> Watching the lomo hit the hot wok is a melody of its own. Using my family's heirloom potatoes makes all the difference. 🔥🥔
+                        </p>
+<div class="flex gap-2 flex-wrap">
+<span class="text-primary font-bold text-label-sm">#PeruvianRoots</span>
+<span class="text-primary font-bold text-label-sm">#SacredValley</span>
+<span class="text-primary font-bold text-label-sm">#CookingArt</span>
+</div>
+<p class="text-label-sm text-outline-variant mt-3">5 hours ago</p>
+</div>
+</article>
+</div>
+</section>
+<!-- Right: Trending & Top Foodies Widgets -->
+<aside class="w-80 hidden xl:flex flex-col gap-6 h-fit sticky top-24">
+<!-- Trending Producers Widget -->
+<div class="bg-surface-container-low rounded-[24px] p-6 border border-outline-variant/30">
+<h2 class="font-headline-md text-headline-md text-on-surface-variant mb-6">Trending Producers</h2>
+<div class="space-y-5">
+<div class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Close up of artisanal cacao beans being fermented in wooden boxes. The lighting is moody and dramatic, highlighting the rich brown textures and white pulp. Professional agriculture photography, Earthy tones, deep shadows, highly organic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBanwUycwauFGUCSV7iDFKX3gn0-fyf8q-TaB71UVhBhsGQRK5W-us5OdX_rOt1NxNsTUwGV7-7XpGoTKfHQuVS4vDCrZnHTNhuXVHFw9sRenEtjDz5quhzP5nuVdX5lQ_1BGN8g9Oe6HGlB8ltS4LtO-yMo4F8Vfeue3m0K_RyKP_I8xMrUUx9nO4dwD63WvpLBaejALsOe8kBnGjEE5aMFpERFyLLaJv74kHBaFrYt9uMzonAJ275MQ"/>
+</div>
+<div>
+<p class="font-bold text-on-surface leading-tight group-hover:text-primary transition-colors">Amazonas Cacao</p>
+<p class="text-label-sm text-tertiary">Chachapoyas</p>
+</div>
+</div>
+<button class="material-symbols-outlined text-primary hover:scale-110 transition-transform">add_circle</button>
+</div>
+<div class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Macro shot of rare Andean corn kernels in various colors like deep purple, gold, and white. The kernels are glistening slightly in bright morning light. Focus is sharp on the texture and natural geometric patterns. High-end culinary ingredient photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL-jCC9nUFnTAyNr2GQc560D68SyKK1mMDgRNtir_-KQshK-5texDKPs_zeF9iJjmkmzUr26AVHGwUnPTD4Qt2WZppbdx54N5r7HRr7W63L7AuysX8nHvsLu-YGb0bEKMGGw8aO1uAISXbu0dQqQtFdNdwKYaAnoLpqYstdBbHr2HDZiYR9-fIlnQ-l6gykhIw0cL7UbeTlGej5aqiW6RGnbKPIBQ8ioKzFD_uTg8hhWsuTwKwqfYahA"/>
+</div>
+<div>
+<p class="font-bold text-on-surface leading-tight group-hover:text-primary transition-colors">Andean Maize Co.</p>
+<p class="text-label-sm text-tertiary">Urubamba</p>
+</div>
+</div>
+<button class="material-symbols-outlined text-primary hover:scale-110 transition-transform">add_circle</button>
+</div>
+<div class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Close up of a hand holding a handful of vibrant, fresh quinoa grains of different varieties (red, black, white). The background is a soft blue sky. Sharp focus, high contrast, natural light. Professional food production aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuATh_n9e2JqFERMqMot75oW2_Ye8s2wrpv2XNa_ZBi30pmlcqxElmtsixsXt8uCNdWfxRTD5Sy5gzZQrqITHjVqmuDr0Owk9DOkO3MtwMAEyTF2hguTNxDhObzeUzFD58CqFDjNEpj9wlZsXuz17A0r1_CrW4X2q685qT5qNTNQBcSoeONf5UpUYMmLGYXmHSO9pn8O9N41tc_koqLx32RCj8a_tV7NdgomdoxDnS55QWKq0J0rmxey5A"/>
+</div>
+<div>
+<p class="font-bold text-on-surface leading-tight group-hover:text-primary transition-colors">Altiplano Grains</p>
+<p class="text-label-sm text-tertiary">Puno</p>
+</div>
+</div>
+<button class="material-symbols-outlined text-primary hover:scale-110 transition-transform">add_circle</button>
+</div>
+</div>
+<button class="w-full mt-6 py-2 text-label-sm text-secondary font-bold hover:bg-secondary/10 rounded-lg transition-colors uppercase tracking-widest">View All Producers</button>
+</div>
+<!-- Top Foodies Widget -->
+<div class="bg-primary-container/10 rounded-[24px] p-6 border border-primary/10">
+<h2 class="font-headline-md text-headline-md text-on-surface-variant mb-6">Top Foodies</h2>
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-4">
+<div class="relative">
+<div class="w-10 h-10 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a sophisticated food critic in a modern restaurant setting. Soft interior lighting, professional attire, elegant atmosphere. The background is a blurred high-end dining room with warm wood accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHstwqA8k9p-TF403gej88TgoOrkfh29RIQVjE4uPi-Am5_b6cCGkHFUTa_7QOSnCoCRrNGqyKRdW7AixPEd0mSBb8yFAxoJYYG6T9tjybZUyyfc6nrIh3seOmannjO4evQSVZwgHKdhzIIU73doliNniAaXFxhmXVGfjBIHApJk8Q2fP3j-RlFSYUUSkjmI9GxkHw17uP3fQ8k-n1-8jZ4imQUcjc7GuTYU1iSmNJFWDcFfiyn6y-oQ"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 bg-tertiary rounded-full flex items-center justify-center border-2 border-white">
+<span class="material-symbols-outlined text-[12px] text-white" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface leading-tight">Chef Mateo</p>
+<p class="text-label-sm text-outline">24k Followers</p>
+</div>
+<button class="text-primary font-bold text-label-sm px-3 py-1 rounded-full border border-primary hover:bg-primary hover:text-white transition-all">Follow</button>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up of a smiling culinary student in professional white uniform. The background is a clean, bright culinary school kitchen. High-key lighting, professional educational atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYRYALOiGaBAzumaHE8B0AmYwWVaQr8eBEjFNs-MnEowXOZ-2VfDbIVUPBlxkFMuzGB-S96CLgHPvxkmjX99SjJ9XGQABuHTcW0Bkw-BMUUxho30KNOIV0OqSYUU2OGjZY_TPtlBSOYtdv0fiP0z-iP7QFqg2SC73zni2Bq7dV_lNjFzp2m3nYr6vd55--iGclV5WCUtkkOR0TzUbWhOCTxhHugh9K3Ewv92AOVg2c0wOj0sCo7lAR_g"/>
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface leading-tight">Sofia V.</p>
+<p class="text-label-sm text-outline">12k Followers</p>
+</div>
+<button class="text-primary font-bold text-label-sm px-3 py-1 rounded-full border border-primary hover:bg-primary hover:text-white transition-all">Follow</button>
+</div>
+</div>
+</div>
+<!-- Footer Links -->
+<div class="px-6 space-y-2 opacity-60">
+<div class="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-outline uppercase tracking-tighter">
+<a class="hover:underline" href="#">About</a>
+<a class="hover:underline" href="#">Accessibility</a>
+<a class="hover:underline" href="#">Privacy Policy</a>
+<a class="hover:underline" href="#">Terms of Service</a>
+</div>
+<p class="text-[11px] text-outline">© 2024 GourmetConnect Lima</p>
+</div>
+</aside>
+</main>
+<!-- Floating Action Button (FAB) mapping from guidelines -->
+<div class="fixed bottom-8 right-8 lg:hidden">
+<button class="w-14 h-14 bg-primary text-on-primary rounded-2xl shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</div>
+<!-- Interaction Script -->
+<script>
+        // Micro-interaction for Like button
+        document.querySelectorAll('.group button:first-child').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const icon = this.querySelector('.material-symbols-outlined');
+                const count = this.querySelector('span:last-child');
+                
+                if(icon.style.fontVariationSettings.includes("'FILL' 1")) {
+                    icon.style.fontVariationSettings = "'FILL' 0, 'wght' 400";
+                    icon.classList.remove('text-red-500');
+                    // Logic to decrement (omitted for static demo)
+                } else {
+                    icon.style.fontVariationSettings = "'FILL' 1, 'wght' 400";
+                    icon.classList.add('text-red-500');
+                    // Logic to increment (omitted for static demo)
+                }
+            });
+        });
+
+        // Simple scroll behavior for TopAppBar
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const header = document.querySelector('header');
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                header.classList.add('-translate-y-full');
+            } else {
+                header.classList.remove('-translate-y-full');
+            }
+            header.style.transition = 'transform 0.3s ease-in-out';
+            lastScroll = currentScroll;
+        });
+    </script>
+</body></html>

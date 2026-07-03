@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Compartir Creación - GourmetConnect</title>
+<!-- Google Fonts: Libre Caslon Text for headlines, Be Vietnam Pro for body -->
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&amp;family=Libre+Caslon+Text:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#351000",
+                    "tertiary": "#296837",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-container": "#f7fff2",
+                    "tertiary-fixed-dim": "#94d69a",
+                    "tertiary-fixed": "#aff3b4",
+                    "on-surface": "#1c1b1b",
+                    "primary-container": "#c45100",
+                    "on-primary-container": "#fffbff",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#43824e",
+                    "on-secondary-fixed": "#3b0900",
+                    "on-primary-fixed-variant": "#7a3000",
+                    "surface-dim": "#dcd9d9",
+                    "surface": "#fcf9f8",
+                    "on-background": "#1c1b1b",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#0f5224",
+                    "on-surface-variant": "#584238",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#ffdbcc",
+                    "surface-tint": "#a04100",
+                    "surface-container-highest": "#e5e2e1",
+                    "outline-variant": "#e0c0b2",
+                    "on-secondary-container": "#772f1a",
+                    "secondary-container": "#fe997c",
+                    "inverse-primary": "#ffb693",
+                    "inverse-surface": "#313030",
+                    "primary": "#9c3f00",
+                    "surface-container-high": "#eae7e7",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#002109",
+                    "surface-variant": "#e5e2e1",
+                    "secondary": "#974730",
+                    "surface-container-low": "#f6f3f2",
+                    "background": "#fcf9f8",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed-dim": "#ffb5a0",
+                    "primary-fixed-dim": "#ffb693",
+                    "outline": "#8c7166",
+                    "inverse-on-surface": "#f3f0ef",
+                    "surface-bright": "#fcf9f8",
+                    "secondary-fixed": "#ffdbd1",
+                    "on-secondary-fixed-variant": "#78301b",
+                    "surface-container": "#f0eded"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "margin-desktop": "40px",
+                    "container-max": "1280px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Be Vietnam Pro"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "body-lg": ["Be Vietnam Pro"],
+                    "headline-md": ["Libre Caslon Text"],
+                    "display-lg-mobile": ["Libre Caslon Text"],
+                    "display-lg": ["Libre Caslon Text"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        body {
+            background-color: #fcf9f8;
+            color: #1c1b1b;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e0c0b2;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-primary-fixed">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim shadow-[0_4px_15px_rgba(0,0,0,0.1)] fixed top-0 w-full z-50 h-16">
+<div class="flex justify-between items-center px-margin-desktop w-full max-w-container-max mx-auto h-full">
+<div class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim">
+                GourmetConnect
+            </div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors font-body-md text-body-md" href="#">Home</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors font-body-md text-body-md" href="#">Discovery</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors font-body-md text-body-md" href="#">Messages</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors font-body-md text-body-md" href="#">Notifications</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed-dim scale-95 active:scale-90 transition-transform">account_circle</button>
+</div>
+</div>
+</header>
+<div class="flex pt-16 min-h-screen">
+<!-- SideNavBar (Hidden on Mobile) -->
+<aside class="hidden lg:flex flex-col py-8 px-4 gap-4 bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant h-screen w-64 fixed left-0 top-16">
+<div class="flex items-center gap-3 px-2 mb-4">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a master chef in a clean white coat with a friendly expression. The lighting is soft and warm, highlighting the high-end Peruvian culinary environment. The background is slightly blurred showing a modern kitchen with copper cookware." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQvItX8_AJdjrLRoHfwzBxfUu5ZeqdlSPv1x3SeGa8EU5fZFduPb3vQyZZEuvq39YQy0MtSyDVpt8sQmJ63uv7AinO0UklEzuwAu_URWuYJSYvEdWNxk6FrGKu2ushd2WNAQNa32OBh0RuGDGohlkCFxmZ2JNhMjXkD4NYgTikgOQpLtpceuoWtmJfC3zS8zEz83zuVfVLHyUxd5VxuMmUtGC2qkKpWUmZZIEzm2d4wK041RMIomtFyA"/>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface">Lima Gastronomy</p>
+<p class="text-xs text-on-surface-variant opacity-70">Master Chef</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-body-md text-body-md">Recipes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-lg translate-x-1" href="#">
+<span class="material-symbols-outlined filled-icon">add_circle</span>
+<span class="font-body-md text-body-md">Create Post</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">eco</span>
+<span class="font-body-md text-body-md">Ingredients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-md text-body-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 bg-tertiary-container rounded-xl text-on-tertiary-container">
+<p class="font-label-sm text-label-sm mb-2">Consejo del Chef</p>
+<p class="text-xs leading-relaxed opacity-90">Usa ingredientes locales para elevar el sabor de tus publicaciones.</p>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 px-4 md:px-margin-desktop py-12">
+<div class="max-w-4xl mx-auto">
+<header class="mb-10 text-center">
+<h1 class="font-display-lg text-display-lg text-primary mb-2">Compartir Creación</h1>
+<p class="text-on-surface-variant opacity-80 font-body-lg text-body-lg">Inspira a la comunidad con tu maestría culinaria</p>
+</header>
+<form class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Image Upload / Preview Area (Bento Left) -->
+<div class="md:col-span-7">
+<div class="group relative aspect-video md:aspect-[4/5] rounded-[24px] bg-white overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.1)] border-2 border-dashed border-outline-variant hover:border-primary transition-colors flex flex-col items-center justify-center cursor-pointer">
+<!-- Background Preview Image -->
+<img class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" data-alt="A premium close-up of a Peruvian Causa Limeña beautifully plated on a ceramic dish. The dish features layers of yellow potato mash, fresh avocado, and succulent shrimp, garnished with vibrant edible flowers and microgreens. The lighting is warm and golden, reflecting a luxury dining atmosphere in Lima." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdOIUMU0D-9djp3n26s7OF60G4kycbzkO5sV8WlmMyuT0W5WJ20fPcvseejQcqsTWbxSG8XxGCdLgB9TJprJcLRuGfOkOZ-dkk582X5HWK0h1090LrcXhXa6wAQwpgTGQxp5SqVZvb6vwaN5RbfXwdAKUPUPfec5YgF0XOJ2OyCBVDWEYGpF9pYVF4TkmMqmb60PiXpndA5Uaq7_uzT1EkhFfsoHycYB6Xc7gZqPqRozlh7XkIqYsoyg"/>
+<div class="relative z-10 flex flex-col items-center bg-white/80 backdrop-blur-md p-8 rounded-full shadow-lg transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-5xl mb-2">cloud_upload</span>
+<span class="font-label-sm text-label-sm text-on-surface">Subir Imagen o Video</span>
+</div>
+<div class="absolute bottom-4 right-4 z-10 flex gap-2">
+<button class="p-2 bg-white/90 backdrop-blur rounded-full shadow hover:bg-white transition-colors" type="button">
+<span class="material-symbols-outlined text-on-surface-variant">edit</span>
+</button>
+<button class="p-2 bg-white/90 backdrop-blur rounded-full shadow hover:bg-white transition-colors" type="button">
+<span class="material-symbols-outlined text-error">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Details Area (Bento Right) -->
+<div class="md:col-span-5 flex flex-col gap-6">
+<!-- Caption/Description -->
+<div class="bg-white p-6 rounded-[24px] shadow-[0_4px_15px_rgba(0,0,0,0.1)]">
+<label class="block font-label-sm text-label-sm text-outline mb-2 uppercase tracking-wider">Descripción</label>
+<textarea class="w-full min-h-[140px] bg-surface-container-low border-none focus:ring-2 focus:ring-primary rounded-xl font-body-md text-body-md p-4 text-on-surface placeholder:text-outline-variant resize-none" placeholder="Comparte la historia detrás de este plato..."></textarea>
+</div>
+<!-- Location & Producer -->
+<div class="bg-white p-6 rounded-[24px] shadow-[0_4px_15px_rgba(0,0,0,0.1)]">
+<label class="block font-label-sm text-label-sm text-outline mb-2 uppercase tracking-wider">Ubicación &amp; Productor</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-tertiary">location_on</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-container-low border-none focus:ring-2 focus:ring-primary rounded-xl font-body-md text-body-md" placeholder="Ej: Mercado Central de Lima" type="text"/>
+</div>
+<div class="mt-3 flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-secondary-fixed text-on-secondary-fixed-variant rounded-full text-xs font-semibold">
+<span class="material-symbols-outlined text-xs">storefront</span>
+                                    Finca Orgánica Valle Sagrado
+                                </span>
+</div>
+</div>
+<!-- Culinary Tags -->
+<div class="bg-white p-6 rounded-[24px] shadow-[0_4px_15px_rgba(0,0,0,0.1)]">
+<label class="block font-label-sm text-label-sm text-outline mb-2 uppercase tracking-wider">Etiquetas Culinarias</label>
+<div class="flex flex-wrap gap-2 mb-3">
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-xs font-semibold hover:bg-primary hover:text-white cursor-pointer transition-colors">#Ceviche</span>
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-xs font-semibold hover:bg-primary hover:text-white cursor-pointer transition-colors">#AndeanCuisine</span>
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-xs font-semibold hover:bg-primary hover:text-white cursor-pointer transition-colors">#Organic</span>
+</div>
+<input class="w-full px-4 py-2 bg-surface-container-low border-none focus:ring-2 focus:ring-primary rounded-xl font-body-md text-body-md" placeholder="Agregar etiqueta..." type="text"/>
+</div>
+<!-- Privacy & Submission -->
+<div class="bg-white p-6 rounded-[24px] shadow-[0_4px_15px_rgba(0,0,0,0.1)] mt-auto">
+<label class="block font-label-sm text-label-sm text-outline mb-4 uppercase tracking-wider">Privacidad de la Publicación</label>
+<div class="flex gap-4 mb-6">
+<button class="flex-1 flex flex-col items-center justify-center p-3 rounded-xl border border-outline-variant hover:border-primary transition-all group active:scale-95" type="button">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary mb-1">public</span>
+<span class="text-[10px] uppercase font-bold text-outline">Público</span>
+</button>
+<button class="flex-1 flex flex-col items-center justify-center p-3 rounded-xl border-2 border-primary bg-primary-fixed flex items-center justify-center active:scale-95" type="button">
+<span class="material-symbols-outlined text-primary mb-1 filled-icon">group</span>
+<span class="text-[10px] uppercase font-bold text-on-primary-fixed">Seguidores</span>
+</button>
+<button class="flex-1 flex flex-col items-center justify-center p-3 rounded-xl border border-outline-variant hover:border-primary transition-all group active:scale-95" type="button">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary mb-1">lock</span>
+<span class="text-[10px] uppercase font-bold text-outline">Privado</span>
+</button>
+</div>
+<button class="w-full bg-[#cc5500] hover:bg-primary-container text-white py-4 rounded-xl font-body-lg text-body-lg font-bold shadow-lg transform hover:-translate-y-1 transition-all active:scale-95 flex items-center justify-center gap-2" type="submit">
+<span class="material-symbols-outlined">send</span>
+                                Compartir Creación
+                            </button>
+</div>
+</div>
+</form>
+</div>
+</main>
+</div>
+<!-- Mobile Navigation Bar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface shadow-[0_-4px_15px_rgba(0,0,0,0.1)] flex justify-around items-center h-16 z-50">
+<button class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px]">Inicio</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">search</span>
+<span class="text-[10px]">Explorar</span>
+</button>
+<button class="flex flex-col items-center -mt-8 bg-primary w-14 h-14 rounded-full text-white shadow-xl">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">mail</span>
+<span class="text-[10px]">Mensajes</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-[10px]">Perfil</span>
+</button>
+</nav>
+<script>
+        // Simple micro-interaction for privacy selection
+        const privacyButtons = document.querySelectorAll('button[type="button"].flex-1');
+        privacyButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                privacyButtons.forEach(b => {
+                    b.classList.remove('border-2', 'border-primary', 'bg-primary-fixed');
+                    b.classList.add('border', 'border-outline-variant');
+                    const icon = b.querySelector('.material-symbols-outlined');
+                    if(icon) icon.classList.remove('filled-icon', 'text-primary');
+                    const text = b.querySelector('span:last-child');
+                    if(text) {
+                        text.classList.remove('text-on-primary-fixed');
+                        text.classList.add('text-outline');
+                    }
+                });
+                btn.classList.remove('border', 'border-outline-variant');
+                btn.classList.add('border-2', 'border-primary', 'bg-primary-fixed');
+                const activeIcon = btn.querySelector('.material-symbols-outlined');
+                if(activeIcon) activeIcon.classList.add('filled-icon', 'text-primary');
+                const activeText = btn.querySelector('span:last-child');
+                if(activeText) {
+                    activeText.classList.remove('text-outline');
+                    activeText.classList.add('text-on-primary-fixed');
+                }
+            });
+        });
+
+        // Prevention for form submit for demo
+        document.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('¡Creación compartida con éxito! Redirigiendo a tu feed...');
+        });
+    </script>
+</body></html>

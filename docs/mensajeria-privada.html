@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GourmetConnect | Private Messaging</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&amp;family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e0c0b2;
+            border-radius: 10px;
+        }
+        .chat-bubble-sender {
+            border-bottom-right-radius: 2px;
+        }
+        .chat-bubble-receiver {
+            border-bottom-left-radius: 2px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#eae7e7",
+                        "on-secondary-fixed-variant": "#78301b",
+                        "on-secondary": "#ffffff",
+                        "surface": "#fcf9f8",
+                        "on-primary-container": "#fffbff",
+                        "on-surface-variant": "#584238",
+                        "surface-container": "#f0eded",
+                        "primary-container": "#c45100",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#1c1b1b",
+                        "secondary-fixed": "#ffdbd1",
+                        "on-tertiary-fixed-variant": "#0f5224",
+                        "outline-variant": "#e0c0b2",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#ffb5a0",
+                        "tertiary-fixed-dim": "#94d69a",
+                        "on-primary-fixed": "#351000",
+                        "primary-fixed-dim": "#ffb693",
+                        "surface-bright": "#fcf9f8",
+                        "outline": "#8c7166",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#43824e",
+                        "secondary": "#974730",
+                        "background": "#fcf9f8",
+                        "surface-container-low": "#f6f3f2",
+                        "surface-dim": "#dcd9d9",
+                        "secondary-container": "#fe997c",
+                        "on-secondary-container": "#772f1a",
+                        "primary-fixed": "#ffdbcc",
+                        "inverse-primary": "#ffb693",
+                        "inverse-surface": "#313030",
+                        "on-tertiary-container": "#f7fff2",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "on-secondary-fixed": "#3b0900",
+                        "surface-variant": "#e5e2e1",
+                        "surface-container-highest": "#e5e2e1",
+                        "inverse-on-surface": "#f3f0ef",
+                        "on-error-container": "#93000a",
+                        "on-background": "#1c1b1b",
+                        "surface-tint": "#a04100",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#9c3f00",
+                        "tertiary-fixed": "#aff3b4",
+                        "on-tertiary-fixed": "#002109",
+                        "tertiary": "#296837",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "unit": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Be Vietnam Pro"],
+                        "display-lg-mobile": ["Libre Caslon Text"],
+                        "body-md": ["Be Vietnam Pro"],
+                        "headline-md": ["Libre Caslon Text"],
+                        "display-lg": ["Libre Caslon Text"],
+                        "label-sm": ["Be Vietnam Pro"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex overflow-hidden">
+<!-- SIDE NAVBAR (Shared Component) -->
+<aside class="fixed left-0 top-0 h-full w-64 hidden lg:flex flex-col bg-surface-container-low border-r border-outline-variant p-4 gap-4 justify-between z-40">
+<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-2 px-2">
+<span class="font-headline-md text-headline-md text-primary font-bold tracking-tight">GourmetConnect</span>
+<div class="flex items-center gap-3 mt-4 p-2 bg-surface rounded-xl shadow-sm border border-outline-variant/30">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="A high-resolution, professional portrait of a renowned Peruvian chef wearing a crisp white culinary coat, set against a blurred background of a modern, upscale kitchen with warm wooden textures and copper cookware. The lighting is soft and cinematic, highlighting a friendly and confident expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjQLs13lut9_5dUquesK-UMswx6U22aps-egdswtREJvINtJJtO_aCbhXHKns-P_G-2cog-us4dUb-lWHdhkkb8TlDTH0SMUSUbQW5a71dbclViIWOQSCmZE-kwk9LY8TIRywAhYLq_JUJzxBNmTKZqZe16797KnSL-mPCu8KmBAS0db0CVcPx0hbsITf-5MGOGda-27hZigBy_5WiWIFB3aQgvf_t8Y1cFKljskRi0maxTgy3Y42-Tg"/>
+<div class="flex flex-col">
+<span class="font-body-md text-on-surface font-bold">Chef Gastón</span>
+<span class="font-label-sm text-on-surface-variant">Lima, Peru</span>
+</div>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:pl-2 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-body-md">Feed</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:pl-2 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-body-md">Map</span>
+</a>
+<!-- Active Tab: Inbox -->
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-xl font-bold transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mail</span>
+<span class="font-body-md">Inbox</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:pl-2 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-body-md">Alerts</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:pl-2 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-md">My Profile</span>
+</a>
+</nav>
+<button class="mx-2 mt-4 py-3 px-6 bg-primary text-on-primary rounded-xl font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined">add</span>
+<span class="font-body-md">Create Recipe</span>
+</button>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:pl-2 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:pl-2 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md">Support</span>
+</a>
+</div>
+</aside>
+<!-- MAIN CONTENT AREA (Split View) -->
+<main class="flex-1 ml-0 lg:ml-64 flex h-screen">
+<!-- MIDDLE COLUMN: Conversation List -->
+<section class="w-full md:w-80 lg:w-96 bg-surface border-r border-outline-variant flex flex-col h-full shrink-0">
+<div class="p-6 border-b border-outline-variant/30 flex flex-col gap-4">
+<h1 class="font-headline-md text-headline-md text-on-surface">Messages</h1>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-xl pl-10 pr-4 py-2 text-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Search conversations..." type="text"/>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<!-- Chat Item Active -->
+<div class="p-4 bg-secondary-container/20 border-l-4 border-primary flex gap-4 cursor-pointer hover:bg-secondary-container/30 transition-colors">
+<div class="relative shrink-0">
+<img class="w-14 h-14 rounded-full object-cover" data-alt="Close-up portrait of a cheerful elderly woman with beautiful grey hair and warm, smiling eyes, wearing a traditional Peruvian embroidered blouse. She is holding a wooden spoon in a kitchen filled with vibrant vegetables and golden corn. The lighting is sunny and inviting, suggesting a master home cook with years of wisdom." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6j95tXApHuoYTJ5-ektbjbOUzXXyyTu6KzFU5YkjmGTfC9DeQEzSU6XI00-cNiEMUb9diBVsMk8ji2fgEUUY31kV9L_nrTSK9sT1H4WPn3G-rqi2Q0wKaVfd7rLmbY931awdWJyoI19EdMxhRaxfaFIgLwaocboy0opMtAeCvqVem0svjaluwi8y9bwbZv5ivmJHh4vyoja5szrjjfPGbgfLlz8iDj4OMMdATFDM96QhvnWDndBoTUg"/>
+<span class="absolute bottom-0 right-0 w-4 h-4 bg-tertiary-container border-2 border-surface rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<span class="font-body-md font-bold text-on-surface truncate">Mamá Elena</span>
+<span class="font-label-sm text-on-surface-variant">14:20</span>
+</div>
+<p class="font-body-md text-on-surface font-semibold truncate">I loved your last ceviche recipe!</p>
+</div>
+</div>
+<!-- Chat Item -->
+<div class="p-4 border-b border-outline-variant/10 flex gap-4 cursor-pointer hover:bg-surface-container-low transition-colors">
+<div class="relative shrink-0">
+<img class="w-14 h-14 rounded-full object-cover grayscale opacity-80" data-alt="An artistic shot of a young male artisanal salt producer from Maras, Peru, with sun-kissed skin and deep brown eyes. He is standing against a backdrop of ancient terraced salt pans under a bright blue Andean sky. The style is crisp and documentary-like, capturing the textures of salt crystals and earthen paths." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMiGrEKMotp1zqYv_CwI7LKeVrfYeYFU9dvDuddnf1dNGTcAxfpfcvYoSX28BQeCRWKUVN3-2iuM_OOGalzFMus-rQVplaQVHvOmHXQhb7i1fbqQa_vuzC1Ebv-VBePyVujem5SH-YLVArgJYj48icMbAR8rNSkDClAVH_cR7vNKOLP7ewrLflssx_aphySJxX8HgODC_e5fDdzAcJ7N0gENy58r8at52y9wNW-mQC_OpzjjoNm3U4pA"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<span class="font-body-md font-bold text-on-surface truncate">Luis (Maras Salt)</span>
+<span class="font-label-sm text-on-surface-variant">Yesterday</span>
+</div>
+<p class="font-body-md text-on-surface-variant truncate">The new batch is ready for delivery.</p>
+</div>
+</div>
+<!-- Chat Item -->
+<div class="p-4 border-b border-outline-variant/10 flex gap-4 cursor-pointer hover:bg-surface-container-low transition-colors">
+<div class="relative shrink-0">
+<img class="w-14 h-14 rounded-full object-cover" data-alt="A portrait of a sophisticated female sommelier in a high-end wine cellar in Lima. She has a knowledgeable and professional air, wearing a tailored charcoal vest. Soft amber lighting highlights the rows of wine bottles and crystalline glassware in the background. The atmosphere is elegant and refined, focusing on her expertise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjeRR6mSCNLDQr90NhmWdsM6gJoxhdlZja8T4PxC5xeduCz7N00B8riNM5wBU1LBENZ15tOtCQH3y_PmkhICvTYc3fI3KM72vtq011rlSaKfEXbRvCj3iRYJCHWXn9mcqQEjtBA-y4n6fmnhVY3kdM2T0XP0bDLzqKelzjolZt-1EWVHBB1XwcRtSzRBHVP3VvISVN69r_mXZzQ3yqY-_KcvMtLw-yZ0ER7jLZQm_Sm6UBH2JWI_LxCQ"/>
+<span class="absolute bottom-0 right-0 w-4 h-4 bg-tertiary-container border-2 border-surface rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<span class="font-body-md font-bold text-on-surface truncate">Sofia Vinos</span>
+<span class="font-label-sm text-on-surface-variant">Tuesday</span>
+</div>
+<p class="font-body-md text-on-surface-variant truncate">Check out this Malbec pairing...</p>
+</div>
+</div>
+<!-- Chat Item -->
+<div class="p-4 border-b border-outline-variant/10 flex gap-4 cursor-pointer hover:bg-surface-container-low transition-colors">
+<div class="relative shrink-0">
+<img class="w-14 h-14 rounded-full object-cover" data-alt="Macro photography portrait of a Peruvian organic farmer with weathered hands and a kind face, wearing a traditional hat. He is surrounded by a diverse array of colorful native potatoes in various shapes and hues. The lighting is natural and earthy, emphasizing the connection between the grower and his harvest." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUTLEbFYrUDq1mR8-BdC37lO6enUOXyubyEV95WG7qfLWUHX0jZZ_H2Rl_dZeNsKta0Cg9L8fGLaVuiXSCbLNv_mTaaA2sxOmgpLBEjH6XG2jyFJBg160VMlsuANlZ7amNIJKmyNqvxDXC9Umgh2aOE0KNZ6FpcfVE7GHYOp17F3Eo1FzGbEDZEbSksLJ6xWZndCpgdyRqIogpxmkLIoLBHez8ZPgpqu9vNaxtt8fE8DqI7AQuAfXeGg"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<span class="font-body-md font-bold text-on-surface truncate">Don Ricardo</span>
+<span class="font-label-sm text-on-surface-variant">Oct 12</span>
+</div>
+<p class="font-body-md text-on-surface-variant truncate">How many kilos of purple potatoes?</p>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: Active Chat Window -->
+<section class="hidden md:flex flex-1 flex-col h-full bg-surface-container-lowest">
+<!-- Chat Header -->
+<header class="h-20 px-8 flex items-center justify-between border-b border-outline-variant/30 bg-surface z-10 shadow-sm">
+<div class="flex items-center gap-4">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Close-up portrait of a cheerful elderly woman with beautiful grey hair and warm, smiling eyes, wearing a traditional Peruvian embroidered blouse. She is holding a wooden spoon in a kitchen filled with vibrant vegetables and golden corn. The lighting is sunny and inviting, suggesting a master home cook with years of wisdom." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA20nNImvhdsbpZYqGSjg-YWw6vZS6Z-mFAPcFbh_sQLHJT75A9-tHQHfurUtJUsIO7XBVekVsz-AcxKbX4jNB7niQNaXYM0h3_DZmom4gHdtMjF4iXbBoBUAArCS1gfROLHrFbMSTjNOR7s8Fg1IXSMQsU84rYGRtb-4kzM0J_ni0EVHY0RuZZi8oH-oMYeDcLSnnzcsPg4Bks3ZQozHDd6N7N-QD77VmKO9R59HXZGeMIsEDtr6dXQ"/>
+<div class="flex flex-col">
+<span class="font-body-lg font-bold text-on-surface">Mamá Elena</span>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 bg-tertiary-container rounded-full"></span>
+<span class="font-label-sm text-tertiary-container">Online Now</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined">call</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined">videocam</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined">info</span>
+</button>
+</div>
+</header>
+<!-- Messages Area -->
+<div class="flex-1 overflow-y-auto p-8 flex flex-col gap-6 custom-scrollbar bg-[url('https://www.transparenttextures.com/patterns/asfalt-light.png')] bg-fixed">
+<div class="flex justify-center">
+<span class="px-4 py-1 bg-surface-container text-on-surface-variant text-label-sm rounded-full">TODAY</span>
+</div>
+<!-- Received Message -->
+<div class="flex items-end gap-3 max-w-[80%]">
+<img class="w-8 h-8 rounded-full object-cover mb-2 shrink-0" data-alt="Close-up portrait of a cheerful elderly woman with beautiful grey hair and warm, smiling eyes, wearing a traditional Peruvian embroidered blouse. She is holding a wooden spoon in a kitchen filled with vibrant vegetables and golden corn. The lighting is sunny and inviting, suggesting a master home cook with years of wisdom." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDU0lsrH8Z__hAcTJ5e0DLsLexGxdoH1pIVCmW60iJCHTlsXbc6hvP_DGzSNMMg0_kkMyNhx5QlhpE1NmYQ0UaQzsooqOUQN0PCKvCnpSnhGPFAMiBh0qG50egEb4h3IZYGC7UR-N3r4SUKhm-n8oYvBJ6B6YQB5SpTmSOv3iNUKJoMgMSi0bQKrjjSZgEp1lFpxuYtVjQGYWiJzrlWaCqmRitcRkbHtx6PmacFijJS3wCqLd3OqnxGzA"/>
+<div class="flex flex-col gap-1">
+<div class="bg-surface shadow-md border border-outline-variant/30 p-4 rounded-2xl rounded-bl-none text-on-surface font-body-md chat-bubble-receiver">
+                            Hola Chef! I just tried your technique for the tiger's milk in the ceviche. Adding that tiny bit of celery really changed everything. 
+                        </div>
+<span class="text-label-sm text-on-surface-variant self-start ml-1">14:15</span>
+</div>
+</div>
+<!-- Sent Message -->
+<div class="flex flex-col items-end gap-1 max-w-[80%] self-end">
+<div class="bg-secondary text-on-secondary shadow-md p-4 rounded-2xl rounded-br-none font-body-md chat-bubble-sender">
+                        That makes me so happy to hear, Elena! It's the secret my grandmother used in her picantería. Did you use the Rocoto chili as well?
+                    </div>
+<span class="text-label-sm text-on-surface-variant mr-1">14:18</span>
+</div>
+<!-- Received Message -->
+<div class="flex items-end gap-3 max-w-[80%]">
+<img class="w-8 h-8 rounded-full object-cover mb-2 shrink-0" data-alt="Close-up portrait of a cheerful elderly woman with beautiful grey hair and warm, smiling eyes, wearing a traditional Peruvian embroidered blouse. She is holding a wooden spoon in a kitchen filled with vibrant vegetables and golden corn. The lighting is sunny and inviting, suggesting a master home cook with years of wisdom." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrogAbIFGujak1tq_NMMhShWM3Aq22tbSQbkOF-benNE-yShJ7xY5BP4zJbw8e8QFJztZehohPvTcvby1Cba7b2c1K2FDGyp7LsEvGYPhVhLFSuMtf64JqjssrpXsqkSq6LD1mJ-Y2QhPccSMKAk-LwFuWtMQY3DPOk_ZR8g6KygZVcZDeQNJnV2-RUdektuGoxK49eg-zFpqHNoDCHt3VbinoP7pmwKWID6z5tvzv49ddIsmareqlsw"/>
+<div class="flex flex-col gap-1">
+<div class="bg-surface shadow-md border border-outline-variant/30 p-4 rounded-2xl rounded-bl-none text-on-surface font-body-md chat-bubble-receiver">
+                            Yes, I did! I loved your last ceviche recipe! The spice level was perfect. Everyone at the dinner table was asking for seconds. 🌶️
+                        </div>
+<span class="text-label-sm text-on-surface-variant self-start ml-1">14:20</span>
+</div>
+</div>
+<!-- Sent Message (Image Attachment) -->
+<div class="flex flex-col items-end gap-1 max-w-[60%] self-end">
+<div class="rounded-2xl overflow-hidden border-2 border-secondary shadow-lg">
+<img class="w-full h-auto object-cover" data-alt="A vibrant, top-down culinary shot of a freshly prepared Peruvian ceviche in a rustic clay bowl. The fish is pristine white, garnished with bright red onion slivers, fresh green cilantro, and orange cubes of sweet potato. The sauce is creamy and lime-infused. The scene is set on a warm wooden table with a side of toasted corn, evoking a sun-drenched coastal bistro in Lima." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxkQbHcYgin9hj_sFt88U0XA-TXOU2ZnWi-SSrw0aFXra5hOicSmqj9s5_Iaz2_wEe8MSsUIBd5wowCl0SB1sNy2Hr2bm-mNS8_MU5wsAnI8t8pcQUO-gMYBcfUCMiqK3fkyi2flRyDTXmfagcDMwdFOa244fJXl9b-KzXa_6R55YmEMwReLNvSbHQhyD88sIFdj8lXpJz5-p5Pq6VXo3W4gtifqIgJF2le11ana_U4irS1Od8JqjCFg"/>
+</div>
+<div class="bg-secondary text-on-secondary shadow-md p-4 rounded-2xl rounded-br-none font-body-md chat-bubble-sender -mt-2 z-10">
+                        This is the batch I made this morning. Look at that texture!
+                    </div>
+<span class="text-label-sm text-on-surface-variant mr-1">14:22</span>
+</div>
+</div>
+<!-- Chat Input Area -->
+<footer class="p-6 bg-surface border-t border-outline-variant/30">
+<div class="flex items-end gap-4 max-w-4xl mx-auto">
+<div class="flex gap-2 mb-1">
+<button class="p-2 text-primary hover:bg-surface-container-low rounded-xl transition-all active:scale-90" title="Attach Photo">
+<span class="material-symbols-outlined">add_a_photo</span>
+</button>
+<button class="p-2 text-primary hover:bg-surface-container-low rounded-xl transition-all active:scale-90" title="Share Location">
+<span class="material-symbols-outlined">location_on</span>
+</button>
+</div>
+<div class="flex-1 relative">
+<textarea class="w-full bg-surface-container-low border-2 border-outline-variant/50 rounded-2xl px-6 py-3 pr-16 text-body-md focus:ring-0 focus:border-primary outline-none transition-all resize-none custom-scrollbar min-h-[48px] max-h-32" placeholder="Type a culinary secret..." rows="1"></textarea>
+<button class="absolute right-2 bottom-1.5 p-2 bg-primary text-on-primary rounded-xl shadow-md hover:bg-primary-container active:scale-95 transition-all">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+<button class="p-3 text-secondary-container hover:bg-secondary-fixed/20 rounded-full mb-0.5 transition-all active:scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+</div>
+</footer>
+</section>
+<!-- Placeholder for Mobile -->
+<section class="flex-1 md:hidden flex items-center justify-center p-8 text-center bg-surface-container-lowest">
+<div class="max-w-xs flex flex-col items-center gap-4">
+<div class="w-20 h-20 bg-secondary-container/20 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-secondary">forum</span>
+</div>
+<h2 class="font-headline-md text-on-surface">Select a conversation</h2>
+<p class="font-body-md text-on-surface-variant">Tap on a message from the list to start chatting with your culinary community.</p>
+</div>
+</section>
+</main>
+<!-- Micro-interaction Script -->
+<script>
+        const textarea = document.querySelector('textarea');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        // Simulating message hover effects
+        const messageListItems = document.querySelectorAll('.flex.cursor-pointer');
+        messageListItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateX(4px)';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateX(0px)';
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GourmetConnect | Discovery Map</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&amp;family=Libre+Caslon+Text:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#eae7e7",
+                    "on-secondary-fixed-variant": "#78301b",
+                    "on-secondary": "#ffffff",
+                    "surface": "#fcf9f8",
+                    "on-primary-container": "#fffbff",
+                    "on-surface-variant": "#584238",
+                    "surface-container": "#f0eded",
+                    "primary-container": "#c45100",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-surface": "#1c1b1b",
+                    "secondary-fixed": "#ffdbd1",
+                    "on-tertiary-fixed-variant": "#0f5224",
+                    "outline-variant": "#e0c0b2",
+                    "on-error": "#ffffff",
+                    "secondary-fixed-dim": "#ffb5a0",
+                    "tertiary-fixed-dim": "#94d69a",
+                    "on-primary-fixed": "#351000",
+                    "primary-fixed-dim": "#ffb693",
+                    "surface-bright": "#fcf9f8",
+                    "outline": "#8c7166",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#43824e",
+                    "secondary": "#974730",
+                    "background": "#fcf9f8",
+                    "surface-container-low": "#f6f3f2",
+                    "surface-dim": "#dcd9d9",
+                    "secondary-container": "#fe997c",
+                    "on-secondary-container": "#772f1a",
+                    "primary-fixed": "#ffdbcc",
+                    "inverse-primary": "#ffb693",
+                    "inverse-surface": "#313030",
+                    "on-tertiary-container": "#f7fff2",
+                    "on-primary-fixed-variant": "#7a3000",
+                    "on-secondary-fixed": "#3b0900",
+                    "surface-variant": "#e5e2e1",
+                    "surface-container-highest": "#e5e2e1",
+                    "inverse-on-surface": "#f3f0ef",
+                    "on-error-container": "#93000a",
+                    "on-background": "#1c1b1b",
+                    "surface-tint": "#a04100",
+                    "on-tertiary": "#ffffff",
+                    "primary": "#9c3f00",
+                    "tertiary-fixed": "#aff3b4",
+                    "on-tertiary-fixed": "#002109",
+                    "tertiary": "#296837",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px",
+                    "unit": "8px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Be Vietnam Pro"],
+                    "display-lg-mobile": ["Libre Caslon Text"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "headline-md": ["Libre Caslon Text"],
+                    "display-lg": ["Libre Caslon Text"],
+                    "label-sm": ["Be Vietnam Pro"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e0c0b2;
+            border-radius: 10px;
+        }
+        .map-gradient-overlay {
+            background: linear-gradient(to right, rgba(252, 249, 248, 1) 0%, rgba(252, 249, 248, 0) 100%);
+        }
+        .custom-shadow {
+            box-shadow: 0 4px 15px -3px rgba(28, 27, 27, 0.1);
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(28, 27, 27, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden h-screen flex">
+<!-- SideNavBar (Left Side) -->
+<aside class="fixed left-0 top-0 h-full w-64 hidden lg:flex flex-col bg-surface-container-low border-r border-outline-variant p-4 gap-4 z-50">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-3 px-2 py-4">
+<div class="w-10 h-10 rounded-full bg-secondary overflow-hidden border-2 border-secondary-fixed">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a renowned Peruvian chef wearing a clean white chef's coat, standing in a brightly lit modern kitchen. The aesthetic is clean and warm, with soft daylight and a palette of creams and subtle wood tones. He has a welcoming expression, embodying high-end yet approachable luxury." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv9b09OWxrEJPrcpdsaRtQEBtwhMjGY62uevjD5OOSmL9NYZpNBPKu0OrTvJKQ96iES8zHurnHlENOkHFQ8LTSoIa3-QsKxPvm5AZdrL-CvI7SavAvc9App9qdcjNqeIXx5DYs4PDV0JaTJyWca0HpaYfYYgd5QzoYvcRqjqoKczmsewnlNQ1xwqp_zQBnzJiCAOzHP5GQgdX7Jx9Fc7yVw-pvtLT3yhtib3PEAUnpq_ZF0bGz0r3kAA"/>
+</div>
+<div>
+<h2 class="font-headline-md text-[18px] leading-tight text-on-surface">Chef Gastón</h2>
+<p class="font-label-sm text-outline">Lima, Peru</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<!-- Feed -->
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-xl hover:pl-5 active:opacity-80" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-body-md">Feed</span>
+</a>
+<!-- Map (Active) -->
+<a class="flex items-center gap-4 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-xl font-bold transition-all hover:pl-5 active:opacity-80" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="font-body-md">Map</span>
+</a>
+<!-- Inbox -->
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-xl hover:pl-5 active:opacity-80" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-body-md">Inbox</span>
+</a>
+<!-- Alerts -->
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-xl hover:pl-5 active:opacity-80" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-body-md">Alerts</span>
+</a>
+<!-- My Profile -->
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-xl hover:pl-5 active:opacity-80" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-md">My Profile</span>
+</a>
+</nav>
+<button class="mt-4 bg-primary text-on-primary font-bold py-3 px-6 rounded-xl transition-transform active:scale-95 shadow-md">
+                Create Recipe
+            </button>
+</div>
+<div class="mt-auto flex flex-col gap-1 border-t border-outline-variant pt-4">
+<a class="flex items-center gap-4 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg hover:pl-5" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg hover:pl-5" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 lg:ml-64 relative flex flex-col h-screen">
+<!-- Top Navigation & Search -->
+<header class="w-full bg-surface shadow-sm z-40 relative px-margin-desktop py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-6 shrink-0">
+<h1 class="font-headline-md text-primary font-bold tracking-tight">GourmetConnect</h1>
+<div class="hidden md:flex gap-6">
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Home</a>
+<a class="font-body-md text-primary border-b-2 border-primary font-bold pb-1" href="#">Discovery</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Messages</a>
+</div>
+</div>
+<!-- Search and Filter Bar -->
+<div class="flex-1 max-w-2xl flex items-center bg-surface-container-low border border-outline-variant rounded-full px-4 py-2 gap-3 transition-focus focus-within:border-primary focus-within:ring-1 focus-within:ring-primary shadow-inner">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 w-full text-body-md placeholder:text-outline-variant" placeholder="Search region, category, or ingredient..." type="text"/>
+<div class="h-6 w-[1px] bg-outline-variant"></div>
+<button class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors px-2">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+<span class="text-label-sm">Filters</span>
+</button>
+</div>
+<div class="flex items-center gap-4 shrink-0">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">add_a_photo</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Close up of a premium profile avatar of a gourmet food enthusiast, smiling warmly in a sophisticated Lima dining environment with warm lighting and a soft bokeh of a fine dining restaurant interior in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCb4SxccU6cnSqjVRQq45P0uoVH18O8DsVYZ2XA7aa5dlFfdQcNtQsMs__7cj3-4z1XugZBaGV0aHtw0ZC_iewbi6tFb53RgXnQlMz-MmUiFJqmhqKu5al8yNZVOdLji8PIH4VwgW8QgX9sYVZozHta5gQs46LP4ewVOUSru-7ixmkKw3g0D9INv2bW8V52oKSWrhVjaFW3lxgqOhmDu3HWdQR-uxMFi04ETn3IY25kXShSGKh2tgZTGA"/>
+</div>
+</div>
+</header>
+<!-- Discovery Map Container -->
+<div class="flex-1 relative flex">
+<!-- Map View (The "Peru/Lima" Map Background) -->
+<div class="absolute inset-0 z-0 bg-surface-container">
+<!-- Map Background (Placeholder for Interactive Map) -->
+<div class="w-full h-full relative overflow-hidden" data-location="Lima, Peru">
+<img class="w-full h-full object-cover opacity-80" data-alt="A stylized, high-contrast aerial map of Lima, Peru and the surrounding coastal landscape. The map features a sophisticated, warm-toned color palette of creams, ochres, and terracotta, highlighting coastal cliffs and city grids. The lighting is soft and golden, resembling late afternoon in Lima." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwp1zORXoEaGvBn2X86ZDdNlAO67-6fFp4kn-Wxaci4dngFjYnFHMQyp1wMP6zCfmhf0GKTmxEgAkmjleYdfUng__OWA7iswHL5vwJX57HHeJgA4Xr-ZwIUPn19ONiq8tHHHl38XodiS8VYzJHyOuN68Fr0HrphwL_gnMWb8OZncZcWzFssbT6gFVAGibnfQ7tdkJ40xZ1zwpUI18-nSkGJ4uATXvkS8cSi8umq9eBUpeG-tGn3UhpIQ"/>
+<!-- Floating Map Pins -->
+<!-- Pin 1: Restaurant -->
+<div class="absolute top-[40%] left-[55%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group">
+<div class="bg-primary text-on-primary w-10 h-10 rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<div class="absolute top-12 left-1/2 -translate-x-1/2 bg-surface px-3 py-1 rounded-full shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="font-label-sm text-on-surface">Central Restaurante</span>
+</div>
+</div>
+<!-- Pin 2: Producer -->
+<div class="absolute top-[60%] left-[45%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group">
+<div class="bg-tertiary text-on-tertiary w-10 h-10 rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">agriculture</span>
+</div>
+<div class="absolute top-12 left-1/2 -translate-x-1/2 bg-surface px-3 py-1 rounded-full shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="font-label-sm text-on-surface">Organic Cacao Coop</span>
+</div>
+</div>
+<!-- Pin 3: Producer -->
+<div class="absolute top-[30%] left-[35%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group">
+<div class="bg-tertiary text-on-tertiary w-10 h-10 rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<div class="absolute top-12 left-1/2 -translate-x-1/2 bg-surface px-3 py-1 rounded-full shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="font-label-sm text-on-surface">Cusco Quinoa Farms</span>
+</div>
+</div>
+</div>
+<!-- Map Controls Overlay -->
+<div class="absolute bottom-10 right-10 flex flex-col gap-2 z-20">
+<button class="w-12 h-12 bg-surface rounded-full shadow-lg flex items-center justify-center text-on-surface-variant hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-12 h-12 bg-surface rounded-full shadow-lg flex items-center justify-center text-on-surface-variant hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<button class="w-12 h-12 bg-surface rounded-full shadow-lg flex items-center justify-center text-on-surface-variant hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+</div>
+</div>
+<!-- Sidebar Overlay: Featured Near You -->
+<aside class="z-10 w-full max-w-sm ml-margin-desktop my-6 pointer-events-none">
+<div class="h-full flex flex-col pointer-events-auto bg-surface/90 backdrop-blur-md rounded-3xl shadow-2xl border border-outline-variant overflow-hidden">
+<div class="p-6 border-b border-outline-variant bg-surface-container-low/50">
+<h3 class="font-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">distance</span>
+                            Featured Near You
+                        </h3>
+<p class="font-label-sm text-on-surface-variant mt-1">Discover 12 local treasures in Lima</p>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+<!-- Card 1: Producer -->
+<div class="bg-surface rounded-2xl border border-outline-variant/30 overflow-hidden custom-shadow card-hover transition-all duration-300">
+<div class="h-32 w-full relative">
+<img class="w-full h-full object-cover" data-alt="A detailed wide shot of a quinoa farmer in traditional Andean clothing standing amidst a vibrant field of colorful organic quinoa plants in Puno, Peru. The background shows the stunning Lake Titicaca under a clear blue sky. The lighting is warm and natural, emphasizing the rich textures and earthy colors of the harvest." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkDj1UOxfdLv7-kYWIySiBRfWzQsmPX-Tl6eRJeblpyrEmaksrO5bZrv3y-_jPmCJmKIZJPKQRBse1BfSrBJzgSpZc9y9-7EweAUhI8M6NPKT0R9Mb3Oyt7grsw0nG5GWyx-9YexGCGUslKJSJ-WfgFd4RZ0YGKTzOuaoBcjvLfqKmnh-94Y5gC0ARMSt0fDk89V_CbnhwznIuTg8a7tq3lh2_4JyDZ9EsCzPlT428AwD1YQVed8UiZA"/>
+<div class="absolute top-2 right-2 bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">eco</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Producer</span>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-body-md font-bold text-on-surface">Mateo Quispe</h4>
+<p class="font-label-sm text-secondary">Organic Quinoa • Puno</p>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-high px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm font-bold">4.9</span>
+</div>
+</div>
+<p class="text-label-sm text-on-surface-variant line-clamp-2 mb-4">Sustainable farming at 3,800m. Heirloom varieties harvested with traditional techniques.</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-secondary text-on-secondary py-2 rounded-lg font-bold text-label-sm active:scale-95 transition-transform">Connect</button>
+<button class="px-3 border-2 border-outline-variant rounded-lg text-outline hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2: Chef -->
+<div class="bg-surface rounded-2xl border border-outline-variant/30 overflow-hidden custom-shadow card-hover transition-all duration-300">
+<div class="h-32 w-full relative">
+<img class="w-full h-full object-cover" data-alt="An exquisite, masterfully plated Peruvian ceviche dish at a high-end restaurant in Lima. The shot captures the delicate texture of the fish, vibrant tiger's milk, and colorful garnishes like sweet potato and cilantro. The lighting is sophisticated, with a soft ambient glow that highlights the freshness and culinary artistry. Warm, modern luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgtVhOdcaeMlIm8Imzgz2uI32Tu-QoUJ8fK0PWaEpz_FAeCmt4xSZNxLqZr-VyrsXYJVD7Y9aFbm6tvC8DX1zOXViUP9PTGqW_ESQA8FHLWqJbCuGUeDmHn1SZ2XpvZ7ny6Ng_0O1rZ0C2KdzegYzM2nW1ZSAyr6Hr2iCIilwW7hKf0GhMFgwWG4OipoG3FhuBlG6vHeNYkuNw4s4x88C0YfL0yKXFLs-qdh5Dk2Ut5kKiFDJumGzDgQ"/>
+<div class="absolute top-2 right-2 bg-primary-container text-on-primary-container px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">restaurant</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Chef</span>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-body-md font-bold text-on-surface">Chef Lucía</h4>
+<p class="font-label-sm text-secondary">Modern Seafood • Miraflores</p>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-high px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm font-bold">5.0</span>
+</div>
+</div>
+<p class="text-label-sm text-on-surface-variant line-clamp-2 mb-4">Reinventing coastal classics with forgotten Amazonian ingredients. Daily fresh catch.</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-secondary text-on-secondary py-2 rounded-lg font-bold text-label-sm active:scale-95 transition-transform">Connect</button>
+<button class="px-3 border-2 border-outline-variant rounded-lg text-outline hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3: Producer -->
+<div class="bg-surface rounded-2xl border border-outline-variant/30 overflow-hidden custom-shadow card-hover transition-all duration-300">
+<div class="h-32 w-full relative">
+<img class="w-full h-full object-cover" data-alt="A close-up photograph of a skilled artisan chocolatier in the Amazon region, sorting fermented cacao beans on a woven mat. The lighting is warm and filtered through jungle foliage, creating a rich, earthy atmosphere. The beans are glossy and deep brown, symbolizing high-quality production and heritage craft." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCD0PMauzluSsayerXppaquLTYsbYEA2PgqOLTg6rrf09h5N4Qauy8tw7FAX098EvqKiVcTegB-4s_xEVVrVaCyEyF5B5N2zrw3YVHYIP1DBQCn7T5dBZ1gAOlgHA7VMt1SGZuvEX-DeBtz7bOrx_Gmuli_wz96JCZt5n04Iwp5isLlZO2EV3KCskDjdqe5CMRiR_UIwlvXV62AEs3DoY_5HyNyMkMxYDWG0I5b6BLr9Ii7HU-pqCPufQ"/>
+<div class="absolute top-2 right-2 bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">nutrition</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Producer</span>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-body-md font-bold text-on-surface">Amazon Cacao Co.</h4>
+<p class="font-label-sm text-secondary">Tree-to-Bar • San Martín</p>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-high px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm font-bold">4.8</span>
+</div>
+</div>
+<p class="text-label-sm text-on-surface-variant line-clamp-2 mb-4">Supporting 20 families through regenerative cacao farming and artisan chocolate making.</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-secondary text-on-secondary py-2 rounded-lg font-bold text-label-sm active:scale-95 transition-transform">Connect</button>
+<button class="px-3 border-2 border-outline-variant rounded-lg text-outline hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-surface border-t border-outline-variant flex justify-center">
+<button class="text-primary font-bold text-label-sm hover:underline flex items-center gap-1">
+                             View all local discoveries
+                             <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Floating Action Button (FAB) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<script>
+        // Simple Interaction logic for Pins
+        const pins = document.querySelectorAll('.group');
+        pins.forEach(pin => {
+            pin.addEventListener('click', () => {
+                // Focus map or logic here
+                console.log('Pin clicked:', pin.innerText);
+            });
+        });
+
+        // Filter button toggle mockup
+        const filterBtn = document.querySelector('header button.flex');
+        filterBtn.addEventListener('click', () => {
+            alert('Filter panel would slide out here!');
+        });
+    </script>
+</body></html>

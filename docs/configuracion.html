@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Configuración | GourmetConnect</title>
+<!-- Google Fonts: Libre Caslon Text & Be Vietnam Pro -->
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;600;700&amp;family=Be+Vietnam+Pro:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#8c7166",
+                    "on-secondary-fixed-variant": "#78301b",
+                    "inverse-primary": "#ffb693",
+                    "on-tertiary-container": "#f7fff2",
+                    "secondary-container": "#fe997c",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#772f1a",
+                    "primary": "#9c3f00",
+                    "tertiary-fixed-dim": "#94d69a",
+                    "on-secondary-fixed": "#3b0900",
+                    "primary-fixed": "#ffdbcc",
+                    "on-tertiary": "#ffffff",
+                    "surface": "#fcf9f8",
+                    "tertiary-fixed": "#aff3b4",
+                    "surface-bright": "#fcf9f8",
+                    "primary-fixed-dim": "#ffb693",
+                    "on-primary-fixed-variant": "#7a3000",
+                    "on-primary-fixed": "#351000",
+                    "inverse-on-surface": "#f3f0ef",
+                    "tertiary-container": "#43824e",
+                    "tertiary": "#296837",
+                    "on-tertiary-fixed": "#002109",
+                    "surface-container-low": "#f6f3f2",
+                    "inverse-surface": "#313030",
+                    "on-background": "#1c1b1b",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed-dim": "#ffb5a0",
+                    "on-surface": "#1c1b1b",
+                    "secondary-fixed": "#ffdbd1",
+                    "secondary": "#974730",
+                    "primary-container": "#c45100",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-tint": "#a04100",
+                    "surface-container-high": "#eae7e7",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#fffbff",
+                    "background": "#fcf9f8",
+                    "surface-dim": "#dcd9d9",
+                    "surface-variant": "#e5e2e1",
+                    "on-surface-variant": "#584238",
+                    "surface-container": "#f0eded",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#e0c0b2",
+                    "surface-container-highest": "#e5e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "margin-mobile": "16px",
+                    "container-max": "1280px",
+                    "margin-desktop": "40px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Libre Caslon Text"],
+                    "body-lg": ["Be Vietnam Pro"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "label-sm": ["Be Vietnam Pro"],
+                    "display-lg-mobile": ["Libre Caslon Text"],
+                    "display-lg": ["Libre Caslon Text"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f6f3f2; /* surface-container-low */
+            color: #1c1b1b; /* on-surface */
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-toggle:checked + .toggle-dot {
+            transform: translateX(100%);
+            background-color: #ffffff;
+        }
+        .custom-toggle:checked {
+            background-color: #9c3f00; /* primary / warm terracotta */
+        }
+        .settings-card {
+            box-shadow: 0 4px 15px rgba(28, 27, 27, 0.05);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-md shadow-sm flex justify-between items-center w-full px-margin-desktop h-16 sticky top-0 z-50">
+<div class="flex items-center gap-gutter">
+<span class="font-headline-md text-headline-md text-primary">GourmetConnect</span>
+<div class="hidden md:flex items-center gap-6 ml-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer font-body-md text-body-md" href="#">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer font-body-md text-body-md" href="#">Discovery</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer font-body-md text-body-md" href="#">Messages</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer font-body-md text-body-md" href="#">Notifications</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<input class="bg-surface-variant/30 border-none rounded-full px-4 py-2 text-sm focus:ring-1 focus:ring-primary w-64" placeholder="Buscar inspiración..." type="text"/>
+</div>
+<span class="material-symbols-outlined text-primary cursor-pointer active:opacity-70" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<div class="flex min-h-screen">
+<!-- SideNavBar (Persistent) -->
+<aside class="hidden lg:flex flex-col h-screen p-unit w-64 border-r border-outline-variant fixed left-0 top-16 bg-surface-container-low overflow-y-auto">
+<div class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-body-md">Recipes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span class="font-body-md">Create Post</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="local_grocery_store">local_grocery_store</span>
+<span class="font-body-md">Ingredients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body-md">Analytics</span>
+</a>
+<!-- Active Item: Settings / Configuración -->
+<a class="flex items-center gap-3 px-4 py-3 text-primary font-bold bg-primary-fixed text-on-primary-fixed rounded-lg transition-all cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="settings" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</div>
+<div class="mt-auto p-4 mb-20">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-cover bg-center border border-outline-variant" data-alt="A close-up high-resolution portrait of a professional chef in a clean white kitchen, wearing a traditional Peruvian toque. The lighting is warm and cinematic, emphasizing the textures of the fabric and the chef's friendly, focused expression. The overall aesthetic is high-end, clean, and culinary-focused with soft ambient depth." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBhwa2CmzQlHVFuEb4xJGKGZcjSKClcE-yAMp707yYkLp8BBcPfwn03l2oIt_hmICCNOCkZZNp2jH3YBovlDz2HMqghvEF7CxKdUC0e7VndLHgoCB_4RFWtAuN1dR3hsIMPXat3hBDES0yQMEXBG5Ko_wzy83vonIm0d6Zh8tEKq_q1ErRmU8HxcjHpKTGofggjIzU47fUde2q-CLI5RKEJiHNP7rMXWJOgdY0J-Cavg7Z1kfs04LFi5w')"></div>
+<div>
+<p class="font-label-sm text-on-surface">Chef Mateo</p>
+<p class="text-[10px] text-on-surface-variant">Premium Gastronomy</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 p-margin-mobile md:p-margin-desktop max-w-5xl mx-auto w-full">
+<header class="mb-10">
+<h1 class="font-display-lg text-display-lg text-primary mb-2">Configuración</h1>
+<p class="font-body-lg text-on-surface-variant">Gestiona tu experiencia culinaria en GourmetConnect.</p>
+</header>
+<div class="space-y-gutter">
+<!-- Section 1: Perfil de Cuenta -->
+<section class="settings-card bg-surface-container-lowest rounded-lg p-6 md:p-8">
+<div class="flex items-center gap-3 mb-6 border-b border-outline-variant pb-4">
+<span class="material-symbols-outlined text-primary" data-icon="person">person</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Perfil de Cuenta</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Avatar Upload -->
+<div class="flex flex-col items-center gap-4">
+<div class="w-32 h-32 rounded-full border-4 border-primary-fixed overflow-hidden relative group">
+<div class="w-full h-full bg-cover bg-center" data-alt="A minimalist, top-down shot of high-quality organic ingredients like vibrant peppers, grains, and herbs arranged on a rustic wooden surface. The lighting is bright and clean, following a modern luxury aesthetic. The image is designed to serve as a profile placeholder for a premium gastronomy social platform." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD5rLx9ExaD-eimD1swl9oBbZGlLMdAGnfN68DIs979_jPGlUP0QNWAaNifARl2TdsO7GLtdxXaV_FvtU83dKXJOvdp9NiGpHsR9FalDqx9T-n1crhTCjGlCinyRpuhIeiXnWPt_o2NHKmYMg4VC84ikMeO8PEeO8W4Coelog4Sr06aGzlufK0Vrp_WWtdEcM3yFRw7cOSce88KLp3F0s5Ube_P_dxUda_MD0RQSm6JaFQycK1NF3pVTA')"></div>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined text-white" data-icon="photo_camera">photo_camera</span>
+</div>
+</div>
+<button class="font-label-sm text-primary hover:underline">Cambiar foto</button>
+</div>
+<!-- Form Fields -->
+<div class="md:col-span-2 space-y-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-on-surface-variant">Nombre Completo</label>
+<input class="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary transition-all" type="text" value="Mateo Velásquez"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-on-surface-variant">Correo Electrónico</label>
+<input class="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary transition-all" type="email" value="mateo@gourmetconnect.pe"/>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-on-surface-variant">Biografía</label>
+<textarea class="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary transition-all" rows="3">Apasionado por la cocina fusión peruana y los ingredientes ancestrales del Amazonas.</textarea>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Privacidad y Seguridad -->
+<section class="settings-card bg-surface-container-lowest rounded-lg p-6 md:p-8">
+<div class="flex items-center gap-3 mb-6 border-b border-outline-variant pb-4">
+<span class="material-symbols-outlined text-primary" data-icon="security">security</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Privacidad y Seguridad</h2>
+</div>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="font-body-md font-semibold text-on-surface">Perfil Privado</p>
+<p class="text-sm text-on-surface-variant">Solo tus seguidores confirmados podrán ver tus recetas y publicaciones.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only custom-toggle peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-high rounded-full transition-colors duration-200"></div>
+<div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200 toggle-dot"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="font-body-md font-semibold text-on-surface">Visibilidad en Buscadores</p>
+<p class="text-sm text-on-surface-variant">Permite que otros te encuentren por tu nombre de chef.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only custom-toggle peer" type="checkbox"/>
+<div class="w-11 h-6 bg-primary rounded-full transition-colors duration-200"></div>
+<div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200 translate-x-5"></div>
+</label>
+</div>
+<div class="pt-4 border-t border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="lock">lock</span>
+<span class="font-body-md text-on-surface">Cambiar contraseña</span>
+</div>
+<button class="text-primary hover:bg-primary-fixed px-4 py-2 rounded-lg font-label-sm transition-all">Actualizar</button>
+</div>
+</div>
+</section>
+<!-- Section 3: Notificaciones -->
+<section class="settings-card bg-surface-container-lowest rounded-lg p-6 md:p-8">
+<div class="flex items-center gap-3 mb-6 border-b border-outline-variant pb-4">
+<span class="material-symbols-outlined text-primary" data-icon="notifications">notifications</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Notificaciones</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+<!-- Push Column -->
+<div class="space-y-4">
+<h3 class="font-label-sm text-primary uppercase tracking-widest">Push Notifications</h3>
+<div class="flex items-center justify-between py-2">
+<span class="text-on-surface">Nuevas Publicaciones</span>
+<input checked="" class="rounded text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+<div class="flex items-center justify-between py-2">
+<span class="text-on-surface">Mensajes Directos</span>
+<input checked="" class="rounded text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+<div class="flex items-center justify-between py-2">
+<span class="text-on-surface">Menciones y Etiquetas</span>
+<input checked="" class="rounded text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+</div>
+<!-- Email Column -->
+<div class="space-y-4">
+<h3 class="font-label-sm text-primary uppercase tracking-widest">Email Marketing</h3>
+<div class="flex items-center justify-between py-2">
+<span class="text-on-surface">Resumen Semanal</span>
+<input class="rounded text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+<div class="flex items-center justify-between py-2">
+<span class="text-on-surface">Nuevos Seguidores</span>
+<input checked="" class="rounded text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+<div class="flex items-center justify-between py-2">
+<span class="text-on-surface">Actualizaciones del Sistema</span>
+<input class="rounded text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Preferencias Gastronómicas -->
+<section class="settings-card bg-surface-container-lowest rounded-lg p-6 md:p-8">
+<div class="flex items-center gap-3 mb-6 border-b border-outline-variant pb-4">
+<span class="material-symbols-outlined text-primary" data-icon="restaurant">restaurant</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Preferencias Gastronómicas</h2>
+</div>
+<p class="text-on-surface-variant mb-6 italic">Selecciona las regiones que definen tu paladar e intereses culinarios.</p>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<!-- Costa -->
+<div class="relative group cursor-pointer overflow-hidden rounded-lg border-2 border-primary ring-2 ring-primary/20">
+<div class="h-32 bg-cover bg-center" data-alt="A stunning wide-angle shot of the Peruvian coastline at sunset, with golden light reflecting off the Pacific waves and distant cliffs. The scene is atmospheric and evokes a sense of freshness and ocean-inspired cuisine. Soft warm tones and pristine horizon. Professional landscape photography style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDsPCRUdRe001eGphSg69OWjRr5A2WXvxCQJbonOmhDpZ5NUygS3tqzRg-MNn8fMDC0lJEWSjgGyCy3SKrecE0dYPo_Xjl9uSUzwQEtURNPo78JPerwNODZnGBfE-NtbDsYxtIF1WxnUig94fqVC-5gtePWsuwCoGy4_q0kFdtC1l3c6AGwe0kdPQIUVBsXmuefXkw0ZDVqv89pvdcvqGTL6ZtiICsnpudbt3jwPDz4VefbTPIQoPvEcw')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-3">
+<div class="flex items-center justify-between w-full">
+<span class="text-white font-bold">Costa</span>
+<span class="material-symbols-outlined text-white text-lg" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</div>
+<!-- Sierra -->
+<div class="relative group cursor-pointer overflow-hidden rounded-lg border-2 border-transparent hover:border-primary-fixed transition-all">
+<div class="h-32 bg-cover bg-center" data-alt="A breathtaking view of the Peruvian Andes, showing layered mountain peaks under a clear blue sky. Terraced fields and vibrant green valleys create a pattern of traditional agriculture. The mood is majestic and grounded in heritage. Crisp, clean mountain lighting with deep shadows and highlights." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBe_xsGrYl14jPt2u7San1Nc-pEhKNEbquBCNogvk5YTDMnNxluaWGEKJG6O_b1Jim6G2_9i4IiAFl6eE6S5EDICnJw0oAjJCD_BtRfJf2KlD9Y3ubtrkYDuE7tlt9BGavd6rPNXU7tWpV4F2bkCU1Kpvj8_EQuSMlqlYtRLOwKvRz5IqmxHPDWA0M_49Ms6VoQ6V-sQNsdD8PdtKyG341iCrbk1Ii33vzw8Uz8qdQ8dbiAss31yGEI1g')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-3">
+<div class="flex items-center justify-between w-full">
+<span class="text-white font-bold">Sierra</span>
+<span class="material-symbols-outlined text-white/50 text-lg" data-icon="add_circle">add_circle</span>
+</div>
+</div>
+</div>
+<!-- Selva -->
+<div class="relative group cursor-pointer overflow-hidden rounded-lg border-2 border-primary ring-2 ring-primary/20">
+<div class="h-32 bg-cover bg-center" data-alt="A lush, dense view of the Amazon rainforest canopy, with various shades of vibrant green foliage and misty atmosphere. A small glimpse of a river reflects the soft, diffused daylight. The aesthetic is organic, wild, and teeming with life. High-contrast greens and deep shadows." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAlwbOqZnxleitDGt9EZyGj2RBQUj-xSZDxgdmEFwwVKqA4VaHuaogNzG28jBoMWJP4T3Fmyj9__xKBD6wgyWu_3iW4qeWU-d0kk0lpt3vfLNZs49IXZd2hxWQXtXbqtcjA4ZQosmGH5ufrgUyYdx5jmuEioolfAVGUPq5iS5aI-6aZ_83jvMF0M10dQtn_8fRYQVWuj4qTltJqn1TJCv3i0Z8Q46vFwWAgzlmnOMefxkn0pu6dzOuJ-Q')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-3">
+<div class="flex items-center justify-between w-full">
+<span class="text-white font-bold">Selva</span>
+<span class="material-symbols-outlined text-white text-lg" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Save Actions -->
+<div class="flex flex-col sm:flex-row items-center justify-end gap-4 pb-20">
+<button class="w-full sm:w-auto px-8 py-3 rounded-lg border-2 border-secondary text-secondary font-bold hover:bg-secondary-fixed transition-all active:scale-95">Descartar Cambios</button>
+<button class="w-full sm:w-auto px-12 py-3 rounded-lg bg-primary text-white font-bold shadow-lg shadow-primary/20 hover:bg-primary-container transition-all active:scale-95">Guardar Configuración</button>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Bottom Navigation (Visible only on mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface/90 backdrop-blur-lg border-t border-outline-variant z-50 px-6 py-3 flex justify-between items-center">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-[10px]">Inicio</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="text-[10px]">Explorar</span>
+</a>
+<a class="flex flex-col items-center gap-1 bg-primary text-white p-3 rounded-full -mt-8 shadow-lg" href="#">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<span class="text-[10px]">Mensajes</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="settings" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="text-[10px]">Ajustes</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for toggles
+        document.querySelectorAll('.custom-toggle').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const dot = this.parentElement.querySelector('.toggle-dot');
+                const container = this.parentElement.querySelector('div:not(.toggle-dot)');
+                if (this.checked) {
+                    dot.classList.add('translate-x-5');
+                    container.classList.replace('bg-surface-container-high', 'bg-primary');
+                } else {
+                    dot.classList.remove('translate-x-5');
+                    container.classList.replace('bg-primary', 'bg-surface-container-high');
+                }
+            });
+        });
+    </script>
+</body></html>
