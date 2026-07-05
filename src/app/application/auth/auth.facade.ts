@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { User } from '../../domain/auth/models/auth.model';
+import { API_CONFIG } from '../../core/config/api.config';
 
 @Injectable({
   providedIn: 'root'
@@ -13,32 +15,44 @@ export class AuthFacade {
   private errorSubject = new BehaviorSubject<string | null>(null);
   error$: Observable<string | null> = this.errorSubject.asObservable();
 
-  constructor(private router: Router) {
+  private apiUrl = `${API_CONFIG.baseUrl}/api/auth/login`;
+
+  constructor(private router: Router, private http: HttpClient) {
     const storedUser = localStorage.getItem('gc_user');
     if (storedUser) {
-      this.currentUserSubject.next(JSON.parse(storedUser));
+      const parsed = JSON.parse(storedUser);
+      // Evitar quedarse atorado con el usuario mock de la maqueta anterior
+      if (parsed.id === 'chef-gaston') {
+        localStorage.removeItem('gc_user');
+        this.currentUserSubject.next(null);
+      } else {
+        this.currentUserSubject.next(parsed);
+      }
     }
   }
 
   login(email: string, password: string): void {
     this.errorSubject.next(null);
 
-    // Validación de credenciales temporales
-    if (email === 'chef@gourmetconnect.com' && password === 'password123') {
-      const mockUser: User = {
-        id: 'chef-gaston',
-        email: email,
-        name: 'Chef Gastón',
-        avatarUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCv9b09OWxrEJPrcpdsaRtQEBtwhMjGY62uevjD5OOSmL9NYZpNBPKu0OrTvJKQ96iES8zHurnHlENOkHFQ8LTSoIa3-QsKxPvm5AZdrL-CvI7SavAvc9App9qdcjNqeIXx5DYs4PDV0JaTJyWca0HpaYfYYgd5QzoYvcRqjqoKczmsewnlNQ1xwqp_zQBnzJiCAOzHP5GQgdX7Jx9Fc7yVw-pvtLT3yhtib3PEAUnpq_ZF0bGz0r3kAA',
-        token: 'mock-jwt-token-123456'
-      };
+    this.http.post<any>(this.apiUrl, { email, password }).subscribe({
+      next: (apiUser) => {
+        const userMapped: User = {
+          id: apiUser.id,
+          email: apiUser.email,
+          name: apiUser.profile?.fullName || apiUser.username,
+          avatarUrl: apiUser.profile?.avatarUrl || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAYUXB9Os_jDGO3-j-8Om-Pl-Dp41NYKcnHVMnxQR4A_bYZvEj4YpU3m1fMLkp6tpn7OWHW5lQluX61Szjk1-OEsdwJXzkfX4_MA7lzxnOZDA5bo-WWY_gQLx_RlaBQFAq7GDzah-Hgl75nSghnbXZtagXABkvdeurzfhRC9MgpQmz8_yfECS4BO9hH_RxCECcw0ozVDsd7buSN7F1uAWW4Bfn8d45ITi--PhZjUZ2nNfTnLor1jzAjgw',
+          token: apiUser.id
+        };
 
-      localStorage.setItem('gc_user', JSON.stringify(mockUser));
-      this.currentUserSubject.next(mockUser);
-      this.router.navigate(['/feed']);
-    } else {
-      this.errorSubject.next('Correo o contraseña incorrectos. Usa chef@gourmetconnect.com y password123');
-    }
+        localStorage.setItem('gc_user', JSON.stringify(userMapped));
+        this.currentUserSubject.next(userMapped);
+        this.router.navigate(['/feed']);
+      },
+      error: (err) => {
+        const errorMsg = err.error || 'Correo o contraseña incorrectos.';
+        this.errorSubject.next(typeof errorMsg === 'string' ? errorMsg : 'Error al iniciar sesión. Inténtalo de nuevo.');
+      }
+    });
   }
 
   clearError(): void {

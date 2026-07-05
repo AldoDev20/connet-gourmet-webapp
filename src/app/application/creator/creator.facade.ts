@@ -9,9 +9,13 @@ import { Creator, Producer } from '../../domain/creator/models/creator.model';
 export class CreatorFacade {
   private creatorSubject = new BehaviorSubject<Creator | null>(null);
   private producersSubject = new BehaviorSubject<Producer[]>([]);
+  private allUsersSubject = new BehaviorSubject<Creator[]>([]);
+  private nearbyUsersSubject = new BehaviorSubject<Creator[]>([]);
 
   creator$: Observable<Creator | null> = this.creatorSubject.asObservable();
   producers$: Observable<Producer[]> = this.producersSubject.asObservable();
+  allUsers$: Observable<Creator[]> = this.allUsersSubject.asObservable();
+  nearbyUsers$: Observable<Creator[]> = this.nearbyUsersSubject.asObservable();
 
   constructor(private creatorRepository: CreatorHttpRepository) {}
 
@@ -21,6 +25,18 @@ export class CreatorFacade {
     });
     this.creatorRepository.getProducers(id).subscribe(producers => {
       this.producersSubject.next(producers);
+    });
+  }
+
+  loadAllUsers(): void {
+    this.creatorRepository.getUsers().subscribe(users => {
+      this.allUsersSubject.next(users);
+    });
+  }
+
+  loadNearbyUsers(lat: number, lng: number, radius: number): void {
+    this.creatorRepository.getNearbyUsers(lat, lng, radius).subscribe(users => {
+      this.nearbyUsersSubject.next(users);
     });
   }
 

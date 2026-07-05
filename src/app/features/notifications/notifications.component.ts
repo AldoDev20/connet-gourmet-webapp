@@ -1,8 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { TranslatePipe } from '../../core/pipes/translate.pipe';
+import { NotificationFacade } from '../../application/notification/notification.facade';
+import { CreatorFacade } from '../../application/creator/creator.facade';
 
 interface NotificationItem {
   id: string;
@@ -54,8 +56,9 @@ interface NotificationItem {
           <div class="space-y-4">
             @for (notif of filteredNotifications; track notif) {
               <div
+                (click)="markAsRead(notif.id)"
                 [ngClass]="notif.opacityClass || ''"
-                class="bg-white rounded-[24px] p-5 shadow-[0px_4px_15px_rgba(28,27,27,0.05)] border border-surface-container flex items-start gap-4 hover:shadow-md transition-shadow">
+                class="bg-white rounded-[24px] p-5 shadow-[0px_4px_15px_rgba(28,27,27,0.05)] border border-surface-container flex items-start gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <!-- Left Icon/Avatar Badge -->
                 <div class="relative flex-shrink-0">
                   @if (notif.avatar) {
@@ -164,9 +167,9 @@ interface NotificationItem {
       display: block;
     }
   `]
-})
-export class NotificationsComponent {
+})export class NotificationsComponent implements OnInit {
   selectedFilter = 'all';
+  notificationsList: NotificationItem[] = [];
 
   filters = [
     { id: 'all', translationKey: 'notif.filterAll' },
@@ -175,60 +178,73 @@ export class NotificationsComponent {
     { id: 'system', translationKey: 'notif.filterSystem' }
   ];
 
-  notifications: NotificationItem[] = [
-    {
-      id: 'notif-1',
-      type: 'interaction',
-      avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBqnrwlUotQv54ObDAIbWI3ZTqZTwnRhR42IQRDU_wUEKhjl_jwnbnxnLT4MTU0XfJeM665ntCOCiArEzPFDF1ABQXXYY8AeSOW4BQCvEXYSPUzTJFfwzgJiMbsw-ItRbaSEZF934-ExUct8hiXulyceXFQcFeAvjOe05DLl8sxyoy2KjlNq_mEifawI3TaRKbEkICgAkImzLXvryFjLMRfh2wQ008r_xUsBw9TDco7SCaKsCSQaesXJQ',
-      badgeIcon: 'favorite',
-      badgeBgClass: 'bg-secondary',
-      contentHtml: '<span class="font-bold">Chef Gastón</span> le dio me gusta a tu receta de <span class="font-bold text-primary">Ceviche de Mango</span>.',
-      timeLabel: 'Hace 5 min',
-      thumbnailUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDq3cLHJlRxOfCqUGMFuSAEsmA51usQIYQS6jkqU1Ig2clCxf1akRc7Dkn28zOmuWMa-IolZaluERaiIqrgaTJ3bQhmFSOR59PIgAAyWB9booC2nuTAJgBc_v52kF3J9aTYsOzjPFhJc_YrcLC2tcHbm77V7ygZeEXsa5UIXC4YiZmfiymER86BI7e16Kj1WzN3pALf26gvaJ5fS98QA2iOyEQ-aSQuYpJohElJFeGd079h7_OXlVJxVA'
-    },
-    {
-      id: 'notif-2',
-      type: 'interaction',
-      avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCC_szcDSInh7B9703mKkQuI6a2odQYrgtJ5sFWFfemuxOzxzszt1exjBpLkE5KiGixZZbsw8QQHaxmyoK338EWk73fSqCcOs6NDtiZQigTenJyEDaySHKpJNGNkGzwIqY6XnD0R1sXpNT4O2WuC7VOR0ly5tyzB6fE2Hn-w6C8B3zrNnEVSz3zG5grlqxcZ2Rhow7A-Q7HbhiL_wrLHwFw9gig-V6sJrtMTmxsBZ3aRDHhhKWn9Wro3w',
-      badgeIcon: 'chat',
-      badgeBgClass: 'bg-tertiary',
-      contentHtml: '<span class="font-bold">Mamá Elena</span> comentó en tu publicación:',
-      commentQuote: '¡Esa técnica del ají amarillo es magistral!',
-      timeLabel: 'Hace 2 horas'
-    },
-    {
-      id: 'notif-3',
-      type: 'recipe',
-      badgeIcon: 'location_on',
-      badgeBgClass: 'bg-tertiary text-on-tertiary',
-      contentHtml: '<span class="font-bold">Nuevo productor local:</span> <span class="text-tertiary font-bold">Finca El Sol</span> se ha unido a la red cerca de ti en <span class="inline-flex items-center bg-secondary-fixed text-on-secondary-fixed-variant px-2 py-0.5 rounded-full text-xs font-bold">Amazonas</span>.',
-      mapCropUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCl6k-BKK5P4wGRMIHfqqpbwk7Qaa_tIDGZPoLLHeeslaIzwdpP9F51mgPu-US9IpDS5o3u9gmL2zhtIgc_16cBUaHyZa_Z495EupyyQJaGz2-1T9hZeN44IFfY410xgqu659gw0YAWbf-aax8VKUw8C2iquuAfT0GN8KKmayQ3IbYJkkPW2uPrv3xtLM4vOmUHGbiklO3011DzU4KEdoK25Gj2qDOjzocBChQTiYod-ENGT-ewzY7O3A',
-      timeLabel: 'Hace 4 horas'
-    },
-    {
-      id: 'notif-4',
-      type: 'recipe',
-      badgeIcon: 'trending_up',
-      badgeBgClass: 'bg-secondary text-on-secondary',
-      contentHtml: '¡Enhorabuena! Tu publicación <span class="font-bold italic text-secondary">\'Secretos del Rocoto\'</span> es tendencia hoy. 🌶️',
-      trendingStats: ['450 me gustas', '82 compartidos'],
-      timeLabel: 'Hace 6 horas'
-    },
-    {
-      id: 'notif-5',
-      type: 'system',
-      badgeIcon: 'update',
-      badgeBgClass: 'bg-surface-container-high text-outline',
-      contentHtml: 'Actualización del sistema completada. Hemos mejorado la búsqueda de ingredientes locales.',
-      timeLabel: 'Ayer',
-      opacityClass: 'opacity-70'
-    }
-  ];
+  constructor(
+    public notificationFacade: NotificationFacade,
+    private creatorFacade: CreatorFacade
+  ) {}
+
+  ngOnInit(): void {
+    this.notificationFacade.loadNotifications();
+    this.creatorFacade.loadAllUsers();
+
+    // Combinar notificaciones y usuarios del backend dinámicamente
+    this.creatorFacade.allUsers$.subscribe(users => {
+      this.notificationFacade.notifications$.subscribe(notifs => {
+        this.notificationsList = notifs.map(n => {
+          const sender = users.find(u => u.id === n.senderId);
+          const senderName = sender ? sender.name : 'Un chef';
+          const senderAvatar = sender ? sender.avatarUrl : 'https://lh3.googleusercontent.com/aida-public/AB6AXuAYUXB9Os_jDGO3-j-8Om-Pl-Dp41NYKcnHVMnxQR4A_bYZvEj4YpU3m1fMLkp6tpn7OWHW5lQluX61Szjk1-OEsdwJXzkfX4_MA7lzxnOZDA5bo-WWY_gQLx_RlaBQFAq7GDzah-Hgl75nSghnbXZtagXABkvdeurzfhRC9MgpQmz8_yfECS4BO9hH_RxCECcw0ozVDsd7buSN7F1uAWW4Bfn8d45ITi--PhZjUZ2nNfTnLor1jzAjgw';
+          
+          let contentHtml = '';
+          let badgeIcon = 'notifications';
+          let badgeBgClass = 'bg-surface-container-high text-outline';
+
+          if (n.type === 'like') {
+            contentHtml = `<span class="font-bold">${senderName}</span> le dio me gusta a tu publicación.`;
+            badgeIcon = 'favorite';
+            badgeBgClass = 'bg-secondary';
+          } else if (n.type === 'comment') {
+            contentHtml = `<span class="font-bold">${senderName}</span> comentó en tu publicación.`;
+            badgeIcon = 'chat';
+            badgeBgClass = 'bg-tertiary';
+          } else if (n.type === 'follow') {
+            contentHtml = `<span class="font-bold">${senderName}</span> comenzó a seguirte.`;
+            badgeIcon = 'person';
+            badgeBgClass = 'bg-primary';
+          } else if (n.type === 'system') {
+            contentHtml = `Actualización del sistema completada.`;
+            badgeIcon = 'update';
+            badgeBgClass = 'bg-surface-container-high text-outline';
+          } else {
+            contentHtml = `Nueva receta o ingrediente registrado en la red.`;
+            badgeIcon = 'restaurant';
+            badgeBgClass = 'bg-tertiary text-on-tertiary';
+          }
+
+          return {
+            id: n.id,
+            type: n.type === 'system' ? 'system' as const : (n.type === 'recipe' ? 'recipe' as const : 'interaction' as const),
+            avatar: senderAvatar,
+            badgeIcon,
+            badgeBgClass,
+            contentHtml,
+            timeLabel: n.createdAt ? new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Hace un momento',
+            opacityClass: n.read ? 'opacity-70' : ''
+          };
+        });
+      });
+    });
+  }
 
   get filteredNotifications(): NotificationItem[] {
     if (this.selectedFilter === 'all') {
-      return this.notifications;
+      return this.notificationsList;
     }
-    return this.notifications.filter(n => n.type === this.selectedFilter);
+    return this.notificationsList.filter(n => n.type === this.selectedFilter);
+  }
+
+  markAsRead(id: string): void {
+    this.notificationFacade.markAsRead(id);
   }
 }
+

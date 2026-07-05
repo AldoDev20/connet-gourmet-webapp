@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
+import { CreatorFacade } from '../../application/creator/creator.facade';
 import * as L from 'leaflet';
 
 interface MapPin {
@@ -236,54 +237,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     }
   ];
 
-  pins: MapPin[] = [
-    { id: 'mateo', name: 'Mateo Quispe', type: 'producer', icon: 'eco', lat: -12.0850, lng: -76.9950, details: 'Organic Quinoa • Puno' },
-    { id: 'lucia', name: 'Chef Lucía', type: 'restaurant', icon: 'restaurant', lat: -12.1220, lng: -77.0290, details: 'Modern Seafood • Miraflores' },
-    { id: 'amazon', name: 'Amazon Cacao Co.', type: 'producer', icon: 'agriculture', lat: -12.1480, lng: -77.0210, details: 'Tree-to-Bar • San Martín' }
-  ];
+  pins: MapPin[] = [];
+  cards: NearbyCard[] = [];
+  filteredCards: NearbyCard[] = [];
 
-  cards: NearbyCard[] = [
-    {
-      id: 'mateo',
-      name: 'Mateo Quispe',
-      type: 'Producer',
-      specialty: 'Organic Quinoa',
-      location: 'Puno',
-      rating: 4.9,
-      description: 'Sustainable farming at 3,800m. Heirloom varieties harvested with traditional techniques.',
-      imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAkDj1UOxfdLv7-kYWIySiBRfWzQsmPX-Tl6eRJeblpyrEmaksrO5bZrv3y-_jPmCJmKIZJPKQRBse1BfSrBJzgSpZc9y9-7EweAUhI8M6NPKT0R9Mb3Oyt7grsw0nG5GWyx-9YexGCGUslKJSJ-WfgFd4RZ0YGKTzOuaoBcjvLfqKmnh-94Y5gC0ARMSt0fDk89V_CbnhwznIuTg8a7tq3lh2_4JyDZ9EsCzPlT428AwD1YQVed8UiZA',
-      iconName: 'eco',
-      badgeClass: 'bg-tertiary-container'
-    },
-    {
-      id: 'lucia',
-      name: 'Chef Lucía',
-      type: 'Chef',
-      specialty: 'Modern Seafood',
-      location: 'Miraflores',
-      rating: 5.0,
-      description: 'Reinventing coastal classics with forgotten Amazonian ingredients. Daily fresh catch.',
-      imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAgtVhOdcaeMlIm8Imzgz2uI32Tu-QoUJ8fK0PWaEpz_FAeCmt4xSZNxLqZr-VyrsXYJVD7Y9aFbm6tvC8DX1zOXViUP9PTGqW_ESQA8FHLWqJbCuGUeDmHn1SZ2XpvZ7ny6Ng_0O1rZ0C2KdzegYzM2nW1ZSAyr6Hr2iCIilwW7hKf0GhMFgwWG4OipoG3FhuBlG6vHeNYkuNw4s4x88C0YfL0yKXFLs-qdh5Dk2Ut5kKiFDJumGzDgQ',
-      iconName: 'restaurant',
-      badgeClass: 'bg-primary-container'
-    },
-    {
-      id: 'amazon',
-      name: 'Amazon Cacao Co.',
-      type: 'Producer',
-      specialty: 'Tree-to-Bar',
-      location: 'San Martín',
-      rating: 4.8,
-      description: 'Supporting 20 families through regenerative cacao farming and artisan chocolate making.',
-      imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCD0PMauzluSsayerXppaquLTYsbYEA2PgqOLTg6rrf09h5N4Qauy8tw7FAX098EvqKiVcTegB-4s_xEVVrVaCyEyF5B5N2zrw3YVHYIP1DBQCn7T5dBZ1gAOlgHA7VMt1SGZuvEX-DeBtz7bOrx_Gmuli_wz96JCZt5n04Iwp5isLlZO2EV3KCskDjdqe5CMRiR_UIwlvXV62AEs3DoY_5HyNyMkMxYDWG0I5b6BLr9Ii7HU-pqCPufQ',
-      iconName: 'nutrition',
-      badgeClass: 'bg-tertiary-container'
-    }
-  ];
-
-  filteredCards: NearbyCard[] = [...this.cards];
-
-  constructor(private router: Router) {}
+  constructor(private router: Router, public creatorFacade: CreatorFacade) {}
 
   ngAfterViewInit(): void {
     this.initMap();
@@ -298,8 +256,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private initMap(): void {
     // Inicializar el mapa con vista alejada de todo el Perú
     this.map = L.map('map', {
-      center: [-9.19, -75.01],
-      zoom: 6,
+      center: [-12.0464, -77.0369],
+      zoom: 12,
       zoomControl: false
     });
 
@@ -310,57 +268,97 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       attribution: initialTheme.attribution
     }).addTo(this.map);
 
-    // Agregar marcadores dinámicos
-    this.pins.forEach(pin => {
-      const customIcon = L.divIcon({
-        className: 'leaflet-custom-div-icon',
-        html: `
-          <div class="relative group cursor-pointer">
-            <div class="${pin.type === 'restaurant' ? 'bg-primary text-on-primary' : 'bg-tertiary text-on-tertiary'} w-10 h-10 rounded-full flex items-center justify-center shadow-lg border-2 border-white transform hover:scale-110 transition-transform">
-              <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">${pin.icon}</span>
-            </div>
-            <!-- Tooltip del pin -->
-            <div class="absolute bottom-12 left-1/2 -translate-x-1/2 bg-surface border border-outline-variant px-3 py-1 rounded-full shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-50">
-              <span class="text-xs font-bold text-on-surface">${pin.name}</span>
-            </div>
-          </div>
-        `,
-        iconSize: [40, 40],
-        iconAnchor: [20, 20]
+    // Cargar usuarios cercanos (radio de 50km alrededor de Lima)
+    this.creatorFacade.loadNearbyUsers(-12.0464, -77.0369, 50);
+
+    // Suscribirse a los datos de usuarios cercanos del backend
+    this.creatorFacade.nearbyUsers$.subscribe(users => {
+      // Limpiar marcadores antiguos
+      this.markers.forEach(m => this.map.removeLayer(m));
+      this.markers = [];
+
+      this.pins = users.map(u => {
+        const coords = (u as any).location?.coordinates || [-77.0369, -12.0464];
+        return {
+          id: u.id,
+          name: u.name,
+          type: (u as any).role === 'producer' ? 'producer' as const : 'restaurant' as const,
+          icon: (u as any).role === 'producer' ? 'eco' : 'restaurant',
+          lat: coords[1] || -12.0464,
+          lng: coords[0] || -77.0369,
+          details: u.bio || 'Chef o Productor de GourmetConnect'
+        };
       });
 
-      const marker = L.marker([pin.lat, pin.lng], { icon: customIcon })
-        .addTo(this.map)
-        .bindPopup(`
-          <div class="p-2 font-body-md text-on-surface">
-            <h4 class="font-bold text-sm text-primary">${pin.name}</h4>
-            <p class="text-xs text-outline mt-1">${pin.details}</p>
-          </div>
-        `);
-
-      marker.on('click', () => {
-        this.selectPin(pin);
+      this.cards = users.map(u => {
+        return {
+          id: u.id,
+          name: u.name,
+          type: (u as any).role === 'producer' ? 'Producer' as const : 'Chef' as const,
+          specialty: (u as any).role === 'producer' ? 'Productos Orgánicos' : 'Gastronomía Local',
+          location: u.location || 'Lima, Perú',
+          rating: 4.9,
+          description: u.bio || 'Miembro verificado de GourmetConnect',
+          imageUrl: u.avatarUrl,
+          iconName: (u as any).role === 'producer' ? 'eco' as const : 'restaurant' as const,
+          badgeClass: (u as any).role === 'producer' ? 'bg-tertiary-container' : 'bg-primary-container'
+        };
       });
 
-      this.markers.push(marker);
+      this.filteredCards = [...this.cards];
+
+      // Colocar marcadores en el mapa
+      this.pins.forEach((pin, index) => {
+        const customIcon = L.divIcon({
+          className: 'leaflet-custom-div-icon',
+          html: `
+            <div class="relative group cursor-pointer">
+              <div class="${pin.type === 'restaurant' ? 'bg-primary text-on-primary' : 'bg-tertiary text-on-tertiary'} w-10 h-10 rounded-full flex items-center justify-center shadow-lg border-2 border-white transform hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">${pin.icon}</span>
+              </div>
+              <div class="absolute bottom-12 left-1/2 -translate-x-1/2 bg-surface border border-outline-variant px-3 py-1 rounded-full shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-50">
+                <span class="text-xs font-bold text-on-surface">${pin.name}</span>
+              </div>
+            </div>
+          `,
+          iconSize: [40, 40],
+          iconAnchor: [20, 20]
+        });
+
+        const marker = L.marker([pin.lat, pin.lng], { icon: customIcon })
+          .addTo(this.map)
+          .bindPopup(`
+            <div class="p-2 font-body-md text-on-surface">
+              <h4 class="font-bold text-sm text-primary">${pin.name}</h4>
+              <p class="text-xs text-outline mt-1">${pin.details}</p>
+            </div>
+          `);
+
+        marker.on('click', () => {
+          this.selectPin(pin);
+        });
+
+        this.markers.push(marker);
+      });
+
+      // Animar de forma fluida hacia el primer pin encontrado
+      if (this.pins.length > 0) {
+        setTimeout(() => {
+          this.map.invalidateSize();
+          const firstPin = this.pins[0];
+          this.map.flyTo([firstPin.lat, firstPin.lng], 14, {
+            animate: true,
+            duration: 2.0
+          });
+          this.map.once('zoomend', () => {
+            if (this.markers[0]) {
+              this.markers[0].openPopup();
+              this.selectPin(firstPin);
+            }
+          });
+        }, 300);
+      }
     });
-
-    // Animar el acercamiento cinematográfico hacia el primer punto (Mateo Quispe)
-    setTimeout(() => {
-      this.map.invalidateSize();
-      const firstPin = this.pins[0];
-      this.map.flyTo([firstPin.lat, firstPin.lng], 16, {
-        animate: true,
-        duration: 2.5
-      });
-      // Abrir el popup y seleccionar la tarjeta una vez termine la animación
-      this.map.once('zoomend', () => {
-        if (this.markers[0]) {
-          this.markers[0].openPopup();
-          this.selectPin(firstPin);
-        }
-      });
-    }, 250);
   }
 
   changeMapTheme(themeId: string): void {
