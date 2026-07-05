@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { PostFacade } from '../../application/post/post.facade';
+import { AuthFacade } from '../../application/auth/auth.facade';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { TranslatePipe } from '../../core/pipes/translate.pipe';
@@ -161,11 +162,11 @@ import { TranslatePipe } from '../../core/pipes/translate.pipe';
                 <!-- Post Header -->
                 <div class="p-4 flex items-center justify-between">
                   <div class="flex items-center gap-3">
-                    <div [routerLink]="post.creatorId === 'chef-gaston' ? '/perfil' : null" class="w-10 h-10 rounded-full overflow-hidden border border-secondary-fixed cursor-pointer">
+                    <div [routerLink]="post.creatorId === currentUserId ? '/perfil' : null" class="w-10 h-10 rounded-full overflow-hidden border border-secondary-fixed cursor-pointer">
                       <img class="w-full h-full object-cover" [alt]="post.creatorName" [src]="post.creatorAvatar"/>
                     </div>
                     <div>
-                      <h3 [routerLink]="post.creatorId === 'chef-gaston' ? '/perfil' : null" class="font-bold text-on-surface-variant text-body-md leading-tight cursor-pointer hover:text-primary transition-colors">
+                      <h3 [routerLink]="post.creatorId === currentUserId ? '/perfil' : null" class="font-bold text-on-surface-variant text-body-md leading-tight cursor-pointer hover:text-primary transition-colors">
                         {{ post.creatorName }}
                       </h3>
                       <div class="flex items-center gap-1 text-secondary">
@@ -380,10 +381,17 @@ export class FeedComponent implements OnInit {
   availableIngredients = ['Ají Amarillo', 'Limón Norteño', 'Cebolla Roja', 'Cilantro Fresco', 'Papas Nativas', 'Choclo Orgánico', 'Trucha Andina'];
   availableLocations = ['Miraflores, Lima', 'Valle Sagrado, Cusco', 'Arequipa, Perú', 'Iquitos, Amazonas', 'Barranco, Lima'];
 
-  constructor(public postFacade: PostFacade) {}
+  currentUserId = 'chef-gaston';
+
+  constructor(public postFacade: PostFacade, private authFacade: AuthFacade) {}
 
   ngOnInit(): void {
     this.postFacade.loadFeed();
+    this.authFacade.currentUser$.subscribe(user => {
+      if (user) {
+        this.currentUserId = user.id;
+      }
+    });
   }
 
   publishPost(): void {

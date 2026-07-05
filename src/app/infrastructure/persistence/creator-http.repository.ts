@@ -1,68 +1,90 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { CreatorRepository } from '../../domain/creator/creator.repository';
 import { Creator, Producer } from '../../domain/creator/models/creator.model';
+import { API_CONFIG } from '../../core/config/api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreatorHttpRepository implements CreatorRepository {
-  private apiUrl = '/api/creators'; // URL base para la API
-
-  // Datos mock correspondientes a la maqueta 'perfil-creador.html'
-  private mockCreator: Creator = {
-    id: 'chef-gaston',
-    name: 'Chef Gastón',
-    avatarUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBU_mE0xX3d2mpLYASUf8apMK71w_Ay8jayOQXQM-OTP6jas8CP_PBrKpPai4NTx1ZURrDt3Z5rvzRRVyS5B_rrwkL02zS7oPMTq78yAFfsDgkkuU_g2YWnYgO4RxduyJNHnFGYmP36bZYPt-q6EbZUg30Q6ni6vk4gdJ79tmKN3iJTRH7tyngMXIk7KCYaZSmQ3AiJKhwP1Fs2hDM3uvrPR7EeU_HhHOLKgjEICj_z2QNSRaEjxUS73g',
-    coverUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBSC0Xt4PiAJSWcEkaqCd3qABeSj-U2TyIrxB3YuRThVx1wLLUXO8C9887wSeotLg6g1PFJ3fNgojMzi3IvMSpHk4oqDe39fxcjx2zqB2ChRznwAWWQezqn_dIubuzYV_JjYcmwiW5ZDJAW6Pu5FinFkfeIxTtCeau_Sgeu1kGMsydMTCN2v0K4MGnUDUO1bnBT9V2zy4C7e8y7OvQlGLpYY0-WpjrIlBmmtbatZAkOuL5HENpJDaD-yA',
-    location: 'Lima, Peru',
-    bio: 'Lover of traditional flavors and sustainable ingredients',
-    followersCount: 15400,
-    recipesCount: 230,
-    producersCount: 45,
-    isFollowing: false
-  };
-
-  private mockProducers: Producer[] = [
-    { id: '1', name: 'Ají Amarillo', type: 'Signature Pepper', avatarUrl: '', percentageUsed: 92 },
-    { id: '2', name: 'Cilantro Serrano', type: 'Wild Mountain Herb', avatarUrl: '', percentageUsed: 85 },
-    { id: '3', name: 'Red Quinoa', type: 'Ancient Grain', avatarUrl: '', percentageUsed: 78 },
-    { id: '4', name: 'Lime Juice', type: 'Northern Coast', avatarUrl: '', percentageUsed: 74 }
-  ];
+  private apiUrl = `${API_CONFIG.baseUrl}/api/users`;
 
   constructor(private http: HttpClient) {}
 
+  private mapCreatorFromApi(apiUser: any, isFollowing = false): Creator {
+    return {
+      id: apiUser.id,
+      name: apiUser.profile?.fullName || apiUser.username || 'Chef Creador',
+      avatarUrl: apiUser.profile?.avatarUrl || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAYUXB9Os_jDGO3-j-8Om-Pl-Dp41NYKcnHVMnxQR4A_bYZvEj4YpU3m1fMLkp6tpn7OWHW5lQluX61Szjk1-OEsdwJXzkfX4_MA7lzxnOZDA5bo-WWY_gQLx_RlaBQFAq7GDzah-Hgl75nSghnbXZtagXABkvdeurzfhRC9MgpQmz8_yfECS4BO9hH_RxCECcw0ozVDsd7buSN7F1uAWW4Bfn8d45ITi--PhZjUZ2nNfTnLor1jzAjgw',
+      coverUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBSC0Xt4PiAJSWcEkaqCd3qABeSj-U2TyIrxB3YuRThVx1wLLUXO8C9887wSeotLg6g1PFJ3fNgojMzi3IvMSpHk4oqDe39fxcjx2zqB2ChRznwAWWQezqn_dIubuzYV_JjYcmwiW5ZDJAW6Pu5FinFkfeIxTtCeau_Sgeu1kGMsydMTCN2v0K4MGnUDUO1bnBT9V2zy4C7e8y7OvQlGLpYY0-WpjrIlBmmtbatZAkOuL5HENpJDaD-yA',
+      location: apiUser.profile?.location?.coordinates ? `${apiUser.profile.location.coordinates[1]}, ${apiUser.profile.location.coordinates[0]}` : 'Lima, Peru',
+      bio: apiUser.profile?.bio || 'Lover of traditional flavors and sustainable ingredients',
+      followersCount: apiUser.stats?.followers_count || 0,
+      recipesCount: apiUser.stats?.posts_count || 0,
+      producersCount: 0, // Ajustado a base de datos (0 productores por defecto)
+      isFollowing: isFollowing
+    };
+  }
+
   getCreatorById(id: string): Observable<Creator> {
-    return this.http.get<Creator>(`${this.apiUrl}/${id}`).pipe(
-      catchError(() => {
-        // En caso de error (API no disponible), retornar el mock correspondientes
-        return of(this.mockCreator);
+    const storedUser = localStorage.getItem('gc_user');
+    const currentUserId = storedUser ? JSON.parse(storedUser).id : 'chef-gaston';
+
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      switchMap(user => {
+        return this.http.get<any[]>(`${API_CONFIG.baseUrl}/api/relationships/following/${currentUserId}`).pipe(
+          map(followingList => {
+            const relationship = followingList.find(r => r.followedId === id);
+            return this.mapCreatorFromApi(user, !!relationship);
+          })
+        );
       })
     );
   }
 
   getProducers(creatorId: string): Observable<Producer[]> {
-    return this.http.get<Producer[]>(`${this.apiUrl}/${creatorId}/producers`).pipe(
-      catchError(() => {
-        return of(this.mockProducers);
+    // Comentados los datos mock. Retorna arreglo vacío ya que no está en base de datos.
+    return of([]);
+  }
+
+  toggleFollow(creatorId: string): Observable<boolean> {
+    const storedUser = localStorage.getItem('gc_user');
+    const currentUserId = storedUser ? JSON.parse(storedUser).id : 'chef-gaston';
+
+    return this.http.get<any[]>(`${API_CONFIG.baseUrl}/api/relationships/following/${currentUserId}`).pipe(
+      switchMap(followingList => {
+        const relationship = followingList.find(r => r.followedId === creatorId);
+        
+        if (relationship) {
+          return this.http.delete(`${API_CONFIG.baseUrl}/api/relationships/${relationship.id}`).pipe(
+            map(() => false)
+          );
+        } else {
+          return this.http.post(`${API_CONFIG.baseUrl}/api/relationships`, {
+            followerId: currentUserId,
+            followedId: creatorId
+          }).pipe(
+            map(() => true)
+          );
+        }
       })
     );
   }
 
-  toggleFollow(creatorId: string): Observable<boolean> {
-    return this.http.post<{ following: boolean }>(`${this.apiUrl}/${creatorId}/follow`, {}).pipe(
-      map(res => res.following),
-      catchError(() => {
-        this.mockCreator.isFollowing = !this.mockCreator.isFollowing;
-        if (this.mockCreator.isFollowing) {
-          this.mockCreator.followersCount++;
-        } else {
-          this.mockCreator.followersCount--;
-        }
-        return of(this.mockCreator.isFollowing);
-      })
+  getNearbyUsers(lat: number, lng: number, radius: number): Observable<Creator[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/nearby?lng=${lng}&lat=${lat}&radius=${radius}`).pipe(
+      map(users => users.map(u => this.mapCreatorFromApi(u)))
+    );
+  }
+
+  getFollowers(userId: string): Observable<Creator[]> {
+    return this.http.get<any[]>(`${API_CONFIG.baseUrl}/api/relationships/followers/${userId}`).pipe(
+      map(followers => followers.map(f => {
+        return this.mapCreatorFromApi(f.follower || f);
+      }))
     );
   }
 }

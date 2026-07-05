@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CreatorFacade } from '../../application/creator/creator.facade';
 import { PostFacade } from '../../application/post/post.facade';
+import { AuthFacade } from '../../application/auth/auth.facade';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { map } from 'rxjs/operators';
@@ -229,17 +230,29 @@ export class ProfileComponent implements OnInit {
   activeTab = 'posts';
   tabs = ['posts', 'recipes', 'ingredients', 'connections'];
   gastonPosts$: Observable<any[]> | undefined;
+  currentUserId = 'chef-gaston';
 
   constructor(
     public creatorFacade: CreatorFacade,
-    private postFacade: PostFacade
+    private postFacade: PostFacade,
+    private authFacade: AuthFacade
   ) {}
 
   ngOnInit(): void {
-    this.gastonPosts$ = this.postFacade.posts$.pipe(
-      map(posts => posts.filter(post => post.creatorId === 'chef-gaston'))
-    );
-    this.creatorFacade.loadCreator('chef-gaston');
+    this.authFacade.currentUser$.subscribe(user => {
+      if (user) {
+        this.currentUserId = user.id;
+        this.creatorFacade.loadCreator(user.id);
+        this.gastonPosts$ = this.postFacade.posts$.pipe(
+          map(posts => posts.filter(post => post.creatorId === user.id))
+        );
+      } else {
+        this.creatorFacade.loadCreator('chef-gaston');
+        this.gastonPosts$ = this.postFacade.posts$.pipe(
+          map(posts => posts.filter(post => post.creatorId === 'chef-gaston'))
+        );
+      }
+    });
     this.postFacade.loadFeed();
   }
 

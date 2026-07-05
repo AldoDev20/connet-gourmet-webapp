@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MessageFacade } from '../../application/message/message.facade';
+import { AuthFacade } from '../../application/auth/auth.facade';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { Chat, Message } from '../../domain/message/models/message.model';
 
@@ -105,10 +106,10 @@ import { Chat, Message } from '../../domain/message/models/message.model';
               @if (messages$ | async; as messages) {
                 @for (msg of messages; track msg) {
                   <div
-                    [ngClass]="msg.senderId === 'chef-gaston' ? 'self-end items-end flex-col' : 'self-start items-start gap-3 flex'"
+                    [ngClass]="msg.senderId === currentUserId ? 'self-end items-end flex-col' : 'self-start items-start gap-3 flex'"
                     class="max-w-[80%] flex">
                     <!-- Receiver Avatar -->
-                    @if (msg.senderId !== 'chef-gaston') {
+                    @if (msg.senderId !== currentUserId) {
                       <img
                         class="w-8 h-8 rounded-full object-cover mb-2 shrink-0"
                         [alt]="chat.participantName"
@@ -116,14 +117,14 @@ import { Chat, Message } from '../../domain/message/models/message.model';
                     }
                     <div class="flex flex-col gap-1">
                       <div
-                      [ngClass]="msg.senderId === 'chef-gaston' 
+                      [ngClass]="msg.senderId === currentUserId 
                         ? 'bg-secondary text-on-secondary chat-bubble-sender rounded-2xl rounded-br-none' 
                         : 'bg-surface shadow-md border border-outline-variant/30 text-on-surface chat-bubble-receiver rounded-2xl rounded-bl-none'"
                         class="p-4 font-body-md">
                         {{ msg.content }}
                       </div>
                       <span
-                        [ngClass]="msg.senderId === 'chef-gaston' ? 'self-end mr-1' : 'self-start ml-1'"
+                        [ngClass]="msg.senderId === currentUserId ? 'self-end mr-1' : 'self-start ml-1'"
                         class="text-label-sm text-on-surface-variant text-xs">
                         {{ msg.timestamp }}
                       </span>
@@ -174,12 +175,13 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
 
   searchQuery = '';
   newMessage = '';
+  currentUserId = 'chef-gaston';
 
   chats$: Observable<Chat[]>;
   activeChat$: Observable<Chat | null>;
   messages$: Observable<Message[]>;
 
-  constructor(private messageFacade: MessageFacade) {
+  constructor(private messageFacade: MessageFacade, private authFacade: AuthFacade) {
     this.chats$ = this.messageFacade.chats$;
     this.activeChat$ = this.messageFacade.activeChat$;
     this.messages$ = this.messageFacade.messages$;
@@ -187,6 +189,11 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.messageFacade.loadChats();
+    this.authFacade.currentUser$.subscribe(user => {
+      if (user) {
+        this.currentUserId = user.id;
+      }
+    });
   }
 
   ngAfterViewChecked(): void {
