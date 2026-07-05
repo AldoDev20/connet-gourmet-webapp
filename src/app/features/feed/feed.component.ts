@@ -7,6 +7,7 @@ import { AuthFacade } from '../../application/auth/auth.facade';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { TranslatePipe } from '../../core/pipes/translate.pipe';
+import { CreatorFacade } from '../../application/creator/creator.facade';
 
 @Component({
   selector: 'app-feed',
@@ -224,7 +225,7 @@ import { TranslatePipe } from '../../core/pipes/translate.pipe';
                         <span class="material-symbols-outlined text-outline group-hover:text-tertiary transition-colors">share</span>
                       </button>
                     </div>
-                    <button class="material-symbols-outlined text-outline hover:text-secondary-container transition-colors">bookmark</button>
+                    <button (click)="bookmarkPost(post.id)" class="material-symbols-outlined text-outline hover:text-secondary-container transition-colors">bookmark</button>
                   </div>
                   <!-- Content Description -->
                   <p class="text-body-md text-on-surface-variant mb-2">
@@ -299,28 +300,20 @@ import { TranslatePipe } from '../../core/pipes/translate.pipe';
         <!-- Trending Producers Widget -->
         <div class="bg-surface-container-low rounded-[24px] p-6 border border-outline-variant/30">
           <h2 class="font-headline-md text-headline-md text-on-surface-variant mb-6 font-bold">Trending Producers</h2>
-          <div class="flex flex-col gap-4">
-            <div class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-xl bg-secondary-fixed flex items-center justify-center text-secondary font-bold font-headline-md">
-                AA
-              </div>
-              <div class="flex-1">
-                <h4 class="font-bold text-body-md">Don Ricardo</h4>
-                <p class="text-label-sm text-outline">Sacred Valley • Native Tubers</p>
-              </div>
-              <button class="text-primary font-bold text-label-sm hover:underline">Follow</button>
+          @if (creatorFacade.allUsers$ | async; as users) {
+            <div class="flex flex-col gap-4">
+              @for (user of users.slice(0, 2); track user.id) {
+                <div class="flex items-center gap-3">
+                  <img class="w-12 h-12 rounded-xl object-cover" [src]="user.avatarUrl" [alt]="user.name"/>
+                  <div class="flex-1 min-w-0">
+                    <h4 class="font-bold text-body-md truncate">{{ user.name }}</h4>
+                    <p class="text-label-sm text-outline truncate">{{ user.location }}</p>
+                  </div>
+                  <button class="text-primary font-bold text-label-sm hover:underline">Follow</button>
+                </div>
+              }
             </div>
-            <div class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-xl bg-tertiary-fixed flex items-center justify-center text-tertiary font-bold font-headline-md">
-                MR
-              </div>
-              <div class="flex-1">
-                <h4 class="font-bold text-body-md">Mama Rosa</h4>
-                <p class="text-label-sm text-outline">Pisac • Ancient Grains</p>
-              </div>
-              <button class="text-primary font-bold text-label-sm hover:underline">Follow</button>
-            </div>
-          </div>
+          }
           <button routerLink="/mapa" class="w-full mt-6 py-2.5 text-primary font-bold border-2 border-primary rounded-xl hover:bg-primary-fixed transition-colors cursor-pointer">
             See Sourcing Map
           </button>
@@ -329,28 +322,22 @@ import { TranslatePipe } from '../../core/pipes/translate.pipe';
         <!-- Top Foodies Spotlights -->
         <div class="bg-white rounded-[24px] p-6 shadow-sm border border-surface-container">
           <h3 class="font-bold text-lg mb-4 text-on-surface-variant">Top Foodies</h3>
-          <div class="flex flex-col gap-4">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <img class="w-10 h-10 rounded-full object-cover" alt="Lucia Mendoza" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACrGH3GG11AyLNzF7GxyLJNRDAEX2dV3gcf8EztS5rEwr1LKBNlLvIKcIr3DSjg1w7X0BbWOwbO6pt3-zYZMwzXyBW_ImLVgxexqWKOGE1T7-YYauezJFGSdwWgh09nue-C7URwRXWgj1DQJt3fz3O8Amb43ln68jgJv4PN1KY9B-dAh0Osf_Fe-6eB3qj57_iIxaVIAlko3QipCj-D20L757DL2kV-L1kgg0bTeoQXuvPPMaBmgnKZw"/>
-                <div>
-                  <div class="font-bold text-sm">Lucia Mendoza</div>
-                  <div class="text-xs text-outline">12.5k followers</div>
+          @if (creatorFacade.allUsers$ | async; as users) {
+            <div class="flex flex-col gap-4">
+              @for (user of users.slice(2, 4); track user.id) {
+                <div class="flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3 min-w-0">
+                    <img class="w-10 h-10 rounded-full object-cover" [src]="user.avatarUrl" [alt]="user.name"/>
+                    <div class="min-w-0">
+                      <div class="font-bold text-sm truncate">{{ user.name }}</div>
+                      <div class="text-xs text-outline">{{ user.followersCount }} followers</div>
+                    </div>
+                  </div>
+                  <button class="text-primary font-bold text-label-sm">Follow</button>
                 </div>
-              </div>
-              <button class="text-primary font-bold text-label-sm">Follow</button>
+              }
             </div>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <img class="w-10 h-10 rounded-full object-cover" alt="Maria Paz" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYUXB9Os_jDGO3-j-8Om-Pl-Dp41NYKcnHVMnxQR4A_bYZvEj4YpU3m1fMLkp6tpn7OWHW5lQluX61Szjk1-OEsdwJXzkfX4_MA7lzxnOZDA5bo-WWY_gQLx_RlaBQFAq7GDzah-Hgl75nSghnbXZtagXABkvdeurzfhRC9MgpQmz8_yfECS4BO9hH_RxCECcw0ozVDsd7buSN7F1uAWW4Bfn8d45ITi--PhZjUZ2nNfTnLor1jzAjgw"/>
-                <div>
-                  <div class="font-bold text-sm">María Paz</div>
-                  <div class="text-xs text-outline">8.9k followers</div>
-                </div>
-              </div>
-              <button class="text-primary font-bold text-label-sm">Follow</button>
-            </div>
-          </div>
+          }
         </div>
       </aside>
     </main>
@@ -383,15 +370,24 @@ export class FeedComponent implements OnInit {
 
   currentUserId = 'chef-gaston';
 
-  constructor(public postFacade: PostFacade, private authFacade: AuthFacade) {}
+  constructor(
+    public postFacade: PostFacade,
+    private authFacade: AuthFacade,
+    public creatorFacade: CreatorFacade
+  ) {}
 
   ngOnInit(): void {
     this.postFacade.loadFeed();
+    this.creatorFacade.loadAllUsers();
     this.authFacade.currentUser$.subscribe(user => {
       if (user) {
         this.currentUserId = user.id;
       }
     });
+  }
+
+  bookmarkPost(postId: string): void {
+    this.postFacade.savePost(postId);
   }
 
   publishPost(): void {

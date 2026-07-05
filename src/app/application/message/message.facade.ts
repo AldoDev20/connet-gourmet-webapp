@@ -19,7 +19,10 @@ export class MessageFacade {
   constructor(private messageRepository: MessageHttpRepository) {}
 
   loadChats(): void {
-    this.messageRepository.getChats().subscribe(chats => {
+    const storedUser = localStorage.getItem('gc_user');
+    const currentUserId = storedUser ? JSON.parse(storedUser).id : 'chef-gaston';
+
+    this.messageRepository.getChats(currentUserId).subscribe(chats => {
       this.chatsSubject.next(chats);
       // Auto-seleccionar el primer chat activo si existe y no hay ninguno seleccionado
       if (chats.length > 0 && !this.activeChatSubject.value) {

@@ -14,4 +14,10 @@ export interface PostRepository {
   toggleLike(postId: string): Observable<boolean>;
   getComments(postId: string): Observable<Comment[]>;
   addComment(postId: string, content: string): Observable<Comment>;
+
+  // Saved items (bookmarks) operations
+  savePost(postId: string): Observable<any>;
+  unsavePost(saveId: string): Observable<void>;
+  getSavedPosts(userId: string): Observable<any[]>;
 }
+

@@ -84,13 +84,14 @@ export class MessageHttpRepository implements MessageRepository {
     const storedUser = localStorage.getItem('gc_user');
     const currentUserId = storedUser ? JSON.parse(storedUser).id : 'chef-gaston';
 
-    return this.http.get<any[]>(`${this.apiUrl}/${chatId}/messages`).pipe(
+    return this.http.get<any[]>(`${API_CONFIG.baseUrl}/api/messages/chat/${chatId}`).pipe(
       map(apiMsgs => {
         if (!apiMsgs || apiMsgs.length === 0) {
           return [];
         }
         return apiMsgs.map(m => this.mapMessageFromApi(m, currentUserId));
-      })
+      }),
+      catchError(() => of([]))
     );
   }
 
@@ -99,17 +100,18 @@ export class MessageHttpRepository implements MessageRepository {
     const currentUserId = storedUser ? JSON.parse(storedUser).id : 'chef-gaston';
 
     const postPayload = {
+      chatId: chatId,
       senderId: currentUserId,
-      text: content
+      content: content
     };
 
-    return this.http.post<any>(`${this.apiUrl}/${chatId}/messages`, postPayload).pipe(
-      map(() => ({
-        id: `msg-${Date.now()}`,
+    return this.http.post<any>(`${API_CONFIG.baseUrl}/api/messages`, postPayload).pipe(
+      map(res => ({
+        id: res.id || `msg-${Date.now()}`,
         senderId: currentUserId,
         senderName: 'Yo',
         content: content,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: res.timestamp ? new Date(res.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         isSender: true
       }))
     );

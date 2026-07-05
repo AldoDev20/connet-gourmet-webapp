@@ -122,30 +122,48 @@ export class PostHttpRepository implements PostRepository {
     const storedUser = localStorage.getItem('gc_user');
     const currentUserId = storedUser ? JSON.parse(storedUser).id : 'chef-gaston';
     const likedKey = `liked_${currentUserId}_${postId}`;
-    const wasLiked = localStorage.getItem(likedKey) === 'true';
-    const isLikedNow = !wasLiked;
 
-    // Based on API docs, there is no /like endpoint, so we update the post using PUT
-    return this.http.get<any>(`${this.apiUrl}/${postId}`).pipe(
-      switchMap(post => {
-        if (!post.engagement) post.engagement = { likesCount: 0, commentsCount: 0, sharesCount: 0 };
-        if (isLikedNow) {
-          post.engagement.likesCount++;
+    return this.http.get<boolean>(`${API_CONFIG.baseUrl}/api/likes/post/${postId}/user/${currentUserId}/check`).pipe(
+      switchMap(isLiked => {
+        if (isLiked) {
+          return this.http.delete(`${API_CONFIG.baseUrl}/api/likes/post/${postId}/user/${currentUserId}`).pipe(
+            map(() => {
+              localStorage.setItem(likedKey, 'false');
+              return false;
+            })
+          );
         } else {
-          post.engagement.likesCount = Math.max(0, post.engagement.likesCount - 1);
+          return this.http.post(`${API_CONFIG.baseUrl}/api/likes`, {
+            postId: postId,
+            userId: currentUserId
+          }).pipe(
+            map(() => {
+              localStorage.setItem(likedKey, 'true');
+              return true;
+            })
+          );
         }
-        return this.http.put<any>(`${this.apiUrl}/${postId}`, post);
       }),
-      map(res => {
+      catchError(() => {
+        const wasLiked = localStorage.getItem(likedKey) === 'true';
+        const isLikedNow = !wasLiked;
         localStorage.setItem(likedKey, isLikedNow ? 'true' : 'false');
-        return isLikedNow;
+        return of(isLikedNow);
       })
     );
   }
 
   getComments(postId: string): Observable<Comment[]> {
-    return this.getPostById(postId).pipe(
-      map(post => post.comments || [])
+    return this.http.get<any[]>(`${API_CONFIG.baseUrl}/api/comments/post/${postId}`).pipe(
+      map(comments => comments.map(c => ({
+        id: c.id,
+        postId: c.postId,
+        userName: c.userName || 'Usuario',
+        userAvatar: c.userAvatar || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAYUXB9Os_jDGO3-j-8Om-Pl-Dp41NYKcnHVMnxQR4A_bYZvEj4YpU3m1fMLkp6tpn7OWHW5lQluX61Szjk1-OEsdwJXzkfX4_MA7lzxnOZDA5bo-WWY_gQLx_RlaBQFAq7GDzah-Hgl75nSghnbXZtagXABkvdeurzfhRC9MgpQmz8_yfECS4BO9hH_RxCECcw0ozVDsd7buSN7F1uAWW4Bfn8d45ITi--PhZjUZ2nNfTnLor1jzAjgw',
+        content: c.content || '',
+        timestamp: c.timestamp ? new Date(c.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Hace un momento'
+      }))),
+      catchError(() => of([]))
     );
   }
 
@@ -155,27 +173,42 @@ export class PostHttpRepository implements PostRepository {
     const currentUserAvatar = storedUser ? JSON.parse(storedUser).avatarUrl : 'https://lh3.googleusercontent.com/aida-public/AB6AXuAYUXB9Os_jDGO3-j-8Om-Pl-Dp41NYKcnHVMnxQR4A_bYZvEj4YpU3m1fMLkp6tpn7OWHW5lQluX61Szjk1-OEsdwJXzkfX4_MA7lzxnOZDA5bo-WWY_gQLx_RlaBQFAq7GDzah-Hgl75nSghnbXZtagXABkvdeurzfhRC9MgpQmz8_yfECS4BO9hH_RxCECcw0ozVDsd7buSN7F1uAWW4Bfn8d45ITi--PhZjUZ2nNfTnLor1jzAjgw';
     const currentUserId = storedUser ? JSON.parse(storedUser).id : 'chef-gaston';
 
-    const newComment = {
-      id: `comment-${Date.now()}`,
+    const newCommentPayload = {
       postId: postId,
       userId: currentUserId,
       userName: currentUserName,
       userAvatar: currentUserAvatar,
-      content: content,
-      timestamp: new Date().toISOString()
+      content: content
     };
 
-    return this.http.get<any>(`${this.apiUrl}/${postId}`).pipe(
-      switchMap(post => {
-        if (!post.comments) post.comments = [];
-        post.comments.push(newComment);
-        if (!post.engagement) post.engagement = { likesCount: 0, commentsCount: 0, sharesCount: 0 };
-        post.engagement.commentsCount = post.comments.length;
-        
-        return this.http.put<any>(`${this.apiUrl}/${postId}`, post);
-      }),
-      map(() => newComment)
+    return this.http.post<any>(`${API_CONFIG.baseUrl}/api/comments`, newCommentPayload).pipe(
+      map(res => ({
+        id: res.id,
+        postId: res.postId,
+        userName: res.userName || currentUserName,
+        userAvatar: res.userAvatar || currentUserAvatar,
+        content: res.content,
+        timestamp: res.timestamp ? new Date(res.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Hace un momento'
+      }))
     );
+  }
+
+  savePost(postId: string): Observable<any> {
+    const storedUser = localStorage.getItem('gc_user');
+    const currentUserId = storedUser ? JSON.parse(storedUser).id : 'chef-gaston';
+    return this.http.post<any>(`${API_CONFIG.baseUrl}/api/saved-items`, {
+      userId: currentUserId,
+      postId: postId,
+      collectionName: 'Favoritos'
+    });
+  }
+
+  unsavePost(saveId: string): Observable<void> {
+    return this.http.delete<void>(`${API_CONFIG.baseUrl}/api/saved-items/${saveId}`);
+  }
+
+  getSavedPosts(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${API_CONFIG.baseUrl}/api/saved-items/user/${userId}`);
   }
 
   getPostsByUser(creatorId: string): Observable<Post[]> {

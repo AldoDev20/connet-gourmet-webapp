@@ -7,4 +7,7 @@ export interface CreatorRepository {
   toggleFollow(creatorId: string): Observable<boolean>;
   getNearbyUsers(lat: number, lng: number, radius: number): Observable<Creator[]>;
   getFollowers(userId: string): Observable<Creator[]>;
+  getFollowing(userId: string): Observable<Creator[]>;
+  getUsers(): Observable<Creator[]>;
 }
+
