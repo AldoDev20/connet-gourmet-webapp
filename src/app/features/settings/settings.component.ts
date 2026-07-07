@@ -225,17 +225,24 @@ interface RegionPref {
           </section>
     
           <!-- Save Actions -->
-          <div class="flex flex-col sm:flex-row items-center justify-end gap-4 pb-20">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-20">
             <button
-              (click)="discardChanges()"
-              class="w-full sm:w-auto px-8 py-3 rounded-xl border-2 border-secondary text-secondary font-bold hover:bg-secondary-fixed transition-all active:scale-95 cursor-pointer">
-              {{ 'settings.discard' | translate }}
+              (click)="logout()"
+              class="w-full sm:w-auto px-8 py-3 rounded-xl border-2 border-error text-error font-bold hover:bg-error-container transition-all active:scale-95 cursor-pointer">
+              {{ 'settings.logout' | translate }}
             </button>
-            <button
-              (click)="saveSettings()"
-              class="w-full sm:w-auto px-12 py-3 rounded-xl bg-primary text-white font-bold shadow-lg shadow-primary/20 hover:brightness-110 transition-all active:scale-95 cursor-pointer">
-              {{ 'settings.save' | translate }}
-            </button>
+            <div class="flex flex-col sm:flex-row items-center justify-end gap-4 w-full sm:w-auto">
+              <button
+                (click)="discardChanges()"
+                class="w-full sm:w-auto px-8 py-3 rounded-xl border-2 border-secondary text-secondary font-bold hover:bg-secondary-fixed transition-all active:scale-95 cursor-pointer">
+                {{ 'settings.discard' | translate }}
+              </button>
+              <button
+                (click)="saveSettings()"
+                class="w-full sm:w-auto px-12 py-3 rounded-xl bg-primary text-white font-bold shadow-lg shadow-primary/20 hover:brightness-110 transition-all active:scale-95 cursor-pointer">
+                {{ 'settings.save' | translate }}
+              </button>
+            </div>
           </div>
         </div>
       </main>
@@ -360,5 +367,11 @@ export class SettingsComponent implements OnInit {
 
     alert('¡Configuración guardada exitosamente! Se han actualizado tus datos reactivos.');
     this.router.navigate(['/feed']);
+  }
+
+  logout(): void {
+    if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+      this.authFacade.logout();
+    }
   }
 }

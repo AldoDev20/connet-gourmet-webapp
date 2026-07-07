@@ -89,6 +89,7 @@ export const TRANSLATIONS: Record<string, Record<string, string>> = {
     'settings.gastronomicDesc': 'Selecciona las regiones que definen tu paladar.',
     'settings.discard': 'Descartar Cambios',
     'settings.save': 'Guardar Configuración',
+    'settings.logout': 'Cerrar Sesión',
     
     // Notifications
     'notif.title': 'Notificaciones',
@@ -186,6 +187,7 @@ export const TRANSLATIONS: Record<string, Record<string, string>> = {
     'settings.gastronomicDesc': 'Select the regions that define your palate.',
     'settings.discard': 'Discard Changes',
     'settings.save': 'Save Settings',
+    'settings.logout': 'Logout',
     
     // Notifications
     'notif.title': 'Notifications',
