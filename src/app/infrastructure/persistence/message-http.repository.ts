@@ -20,7 +20,7 @@ export class MessageHttpRepository implements MessageRepository {
       id: apiMsg.id,
       senderId: apiMsg.senderId,
       senderName: apiMsg.senderId === currentUserId ? 'Yo' : 'Participante',
-      content: apiMsg.text || '',
+      content: apiMsg.content || '',
       timestamp: apiMsg.timestamp ? new Date(apiMsg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now',
       isSender: apiMsg.senderId === currentUserId
     };
